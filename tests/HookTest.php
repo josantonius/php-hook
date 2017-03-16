@@ -27,7 +27,7 @@ class HookTest {
      * pattern and create a single instance of the class. If it does not
      * exist it will create a new object.
      *
-     * You can change the method name using Hook::setSingletonName(),
+     * You can change the method name using Hook::setSingletonName().
      *
      * @since 1.0.0
      */
@@ -79,7 +79,7 @@ class HookTest {
      */
     public static function testExecuteHooks() {
 
-        self::testSetHooks();
+        self::testAddHooks();
 
         Hook::run('meta');
         Hook::run('css');
