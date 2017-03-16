@@ -71,7 +71,7 @@ $Hook = Hook::getInstance();
 
 $hooks = [
     'css'        => 'Namespace\Class\Example@css',
-    'js'         => 'Namespace\Class\EExample@js',
+    'js'         => 'Namespace\Class\Example@js',
     'after-body' => 'Namespace\Class\Example@afterBody',
     'footer'     => 'Namespace\Class\Example@footer',
 ];
