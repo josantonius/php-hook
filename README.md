@@ -137,7 +137,7 @@ All files in this repository were created and uploaded automatically with [Repos
 
 This project is licensed under **MIT license**. See the [LICENSE](LICENSE) file for more info.
 
-## Copyright
+### Copyright
 
 2017 Josantonius, [josantonius.com](https://josantonius.com/)
 

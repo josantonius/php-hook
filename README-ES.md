@@ -136,7 +136,7 @@ Los archivos de este repositorio se crearon y subieron automáticamente con [Rep
 
 Este proyecto está licenciado bajo **licencia MIT**. Consulta el archivo [LICENSE](LICENSE) para más información.
 
-## Copyright
+### Copyright
 
 2017 Josantonius, [josantonius.com](https://josantonius.com/)
 
