@@ -30,7 +30,7 @@ To install PHP Hook library, simply:
 
     $ composer require Josantonius/Hook
 
-The previous command will only install the necessary files, if you prefer to download the entire source, including tests, you can use:
+The previous command will only install the necessary files, if you prefer to download the entire source code (including tests, vendor folder, exceptions not used, docs...) you can use:
 
     $ composer require Josantonius/Hook --prefer-source
 
