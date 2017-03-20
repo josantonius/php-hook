@@ -70,6 +70,7 @@ class Hook {
             'after-body',
             'footer',
             'js',
+            'launch',
             'routes'
         ]);
 
