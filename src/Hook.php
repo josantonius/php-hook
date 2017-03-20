@@ -235,3 +235,4 @@ class Hook {
         return ob_get_clean();
     }
 }
+ 
