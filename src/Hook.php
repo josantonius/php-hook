@@ -28,7 +28,15 @@ class Hook {
      *
      * @var array
      */
-    private static $_hooks = array();
+    private static $_hooks = [
+        'meta',
+        'css',
+        'after-body',
+        'footer',
+        'js',
+        'launch',
+        'routes'
+    ];
 
     /**
      * Method name to use the singleton pattern and just create an instance.
@@ -63,17 +71,7 @@ class Hook {
 
             return self::$_instances[$id];
         } 
-
-        self::setHook([
-            'meta',
-            'css',
-            'after-body',
-            'footer',
-            'js',
-            'launch',
-            'routes'
-        ]);
-
+        
         return self::$_instances[$id] = new self;
     }
 
