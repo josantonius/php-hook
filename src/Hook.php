@@ -150,19 +150,19 @@ class Hook {
     }
 
     /**
-     * Remove custom function to hook.
+     * Reset custom function to hook.
      *
-     * @since 1.0.0
+     * @since 1.0.2
      *
-     * @param array|string $where    → hook to remove
+     * @param array|string $where → hook to remove
      *
      * @return boolean
      */
-    public static function removeHook($where) {
+    public static function resetHook($where) {
 
         if (isset(self::$_hooks[$where])) {
 
-            unset(self::$_hooks[$where]);
+            self::$_hooks[$where] = '';
 
             return true;
         }
@@ -197,8 +197,6 @@ class Hook {
         }
 
         $theseHooks = explode('|', self::$_hooks[$where]);
-
-        unset(self::$_hooks[$where]);
 
         foreach ($theseHooks as $hook) {
 
