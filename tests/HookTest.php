@@ -73,6 +73,20 @@ class HookTest {
     }
 
     /**
+     * Remove hook.
+     *
+     * @since 1.0.2
+     */
+    public static function TestRemoveHook() {
+
+        $Hook = Hook::getInstance();
+
+        $Hook->addHook('example');
+
+        var_dump($Hook->removeHook('example'));
+    }
+
+    /**
      * Execute hooks.
      *
      * @since 1.0.0

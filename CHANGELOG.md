@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.0.3 - 2017-05-19
+* Added option to remove custom function to hook.
+
+* Added `Josantonius\Hook\Hook::removeHook()` method.
+
 ## 1.0.1 - 2017-03-18
 * Some files were excluded from download and comments and readme files were updated.
 

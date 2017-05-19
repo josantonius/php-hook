@@ -150,6 +150,27 @@ class Hook {
     }
 
     /**
+     * Remove custom function to hook.
+     *
+     * @since 1.0.0
+     *
+     * @param array|string $where    → hook to remove
+     *
+     * @return boolean
+     */
+    public static function removeHook($where) {
+
+        if (isset(self::$_hooks[$where])) {
+
+            unset(self::$_hooks[$where]);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Run all hooks attached to the hook.
      *
      * By default it will look for the 'getInstance' method to use singleton 
@@ -176,6 +197,8 @@ class Hook {
         }
 
         $theseHooks = explode('|', self::$_hooks[$where]);
+
+        unset(self::$_hooks[$where]);
 
         foreach ($theseHooks as $hook) {
 
