@@ -69,7 +69,7 @@ Hook::setSingletonName($method);
 ```
 
 | Atttribute | Description | Type | Required | Default
-| --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | $method | Set method name for use singleton pattern | string | Yes | |
 
 **addAction()**
@@ -78,7 +78,7 @@ Hook::addAction($tag, $function, $priority, $args);
 ```
 
 | Atttribute | Description | Type | Required | Default
-| --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | $tag | Action hook name | string | Yes | |
 | $function | Function to attach to action hook | callable | Yes | |
 | $priority | Set method name for use singleton pattern | int | No | 8 |
@@ -90,7 +90,7 @@ Hook::addActions($actions);
 ```
 
 | Atttribute | Description | Type | Required | Default
-| --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | $actions | Actions hooks | array | Yes | |
 
 **doAction()**
@@ -99,7 +99,7 @@ Hook::doAction($tag, $args, $remove);
 ```
 
 | Atttribute | Description | Type | Required | Default
-| --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | $tag | Action hook name | string | Yes | |
 | $args | Optional arguments | mixed | No | array() |
 | $remove | Delete hook after executing actions | boolean | No | true |
