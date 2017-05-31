@@ -108,7 +108,7 @@ Hook::doAction($tag, $args, $remove);
 ```php
 Hook::current();
 ```
-
+ 
 ### Usage
 
 Example of use for this library:
