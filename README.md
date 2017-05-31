@@ -58,10 +58,12 @@ use Josantonius\Hook\Hook;
 
 Available methods in this library:
 
+**getInstance()**
 ```php
 Hook::getInstance();
 ```
 
+**setSingletonName()**
 ```php
 setSingletonName($method);
 ```
