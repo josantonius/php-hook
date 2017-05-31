@@ -60,11 +60,11 @@ Available methods in this library:
 ```php
 Hook::getInstance();
 Hook::setSingletonName();
-Hook::setHook();
-Hook::addHook();
-Hook::run();
-Hook->collectHook();
+Hook::addAction();
+Hook::addActions();
+Hook::current();
 ```
+
 ### Usage
 
 Example of use for this library:
@@ -75,22 +75,26 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Josantonius\Hook\Hook;
 
-$Hook = Hook::getInstance();
+/* Add actions */
+
+Hook::addAction('css', ['Namespace\Class\Example', 'css'], 2, 0);
 
 $hooks = [
-    'css'        => 'Namespace\Class\Example@css',
-    'js'         => 'Namespace\Class\Example@js',
-    'after-body' => 'Namespace\Class\Example@afterBody',
-    'footer'     => 'Namespace\Class\Example@footer',
+    ['meta',       ['Namespace\Class\Example', 'meta'],      1, 0],
+    ['js',         ['Namespace\Class\Example', 'js'],        3, 0],
+    ['after-body', ['Namespace\Class\Example', 'afterBody'], 4, 0],
+    ['footer',     ['Namespace\Class\Example', 'footer'],    5, 0],
 ];
 
-$Hook->addHook($hooks);
+Hook::addActions($hooks);
 
-$Hook->run('meta');
-$Hook->run('css');
-$Hook->run('js');
-$Hook->run('after-body');
-$Hook->run('footer');
+/* Run actions */
+
+Hook::doAction('meta');
+Hook::doAction('css');
+Hook::doAction('js');
+Hook::doAction('after-body');
+Hook::doAction('footer');
 ```
 
 ### Tests 
@@ -110,11 +114,12 @@ use Josantonius\Hook\Tests\HookTest;
 Available test methods in this library:
 
 ```php
-HookTest::testAddHooks();
+HookTest::testAddHooksMethod();
+HookTest::testAddHooksArray();
+HookTest::testAddHooksInstance();
 HookTest::testSetSingletonName();
+HookTest::testCurrentHook();
 HookTest::testExecuteHooks();
-HookTest::testSetOneHook();
-HookTest::testSetMultipleHooks();
 ```
 
 ### Exception Handler

@@ -1,5 +1,39 @@
 # CHANGELOG
 
+## 1.0.3 - 2017-05-31
+
+These deprecated methods will be removed as of version 1.0.4:
+
+* Deprecated `$_hooks` property.
+
+* Deprecated `Josantonius\Hook\Hook::setHook()` method.
+* Deprecated `Josantonius\Hook\Hook::addHook()` method.
+* Deprecated `Josantonius\Hook\Hook::resetHook()` method.
+* Deprecated `Josantonius\Hook\Hook::run()` method.
+* Deprecated `Josantonius\Hook\Hook::collectHook()` method.
+
+* Added `Josantonius\Hook\Hook::addAction()` method.
+* Added `Josantonius\Hook\Hook::addActions()` method.
+* Added `Josantonius\Hook\Hook::doAction()` method.
+* Added `Josantonius\Hook\Hook::_runAction()` method.
+* Added `Josantonius\Hook\Hook::_getActions()` method.
+* Added `Josantonius\Hook\Hook::_getArguments()` method.
+* Added `Josantonius\Hook\Hook::current()` method.
+
+* Deleted `Josantonius\Hook\Tests\HookTest::testAddHooks()` method.
+* Deleted `Josantonius\Hook\Tests\HookTest::testExecuteHooks()` method.
+* Deleted `Josantonius\Hook\Tests\HookTest::testSetOneHook()` method.
+* Deleted `Josantonius\Hook\Tests\HookTest::testSetMultipleHooks()` method
+
+* Added `Josantonius\Hook\Tests\HookTest::testAddHooksMethod()` method.
+* Added `Josantonius\Hook\Tests\HookTest::testAddHooksArray()` method.
+* Added `Josantonius\Hook\Tests\HookTest::testAddHooksInstance()` method.
+* Added `Josantonius\Hook\Tests\HookTest::testCurrentHook()` method.
+
+* Added `$callbacks` property.
+* Added `$actions` property.
+* Added `$current` property.
+
 ## 1.0.2 - 2017-05-19
 * Added option to remove custom function to hook.
 

@@ -53,12 +53,7 @@ class Example {
      */
     public static function newSingletonMethodName() {
         
-        if (isset(self::$_instance)) {
-
-            return self::$_instance;
-        } 
-
-        return self::$_instance = new self;
+        return self::getInstance();
     }
     
     /**
@@ -66,9 +61,9 @@ class Example {
      *
      * @since 1.0.0
      */
-    public function meta() {
+    public function meta($title = 'A title') {
 
-        print('<title>A title</title>');
+        print("<title>$title</title>");
     }
 
     /**

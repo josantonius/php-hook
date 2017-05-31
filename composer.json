@@ -1,10 +1,13 @@
 {
     "name":        "josantonius/hook",
-    "version":     "1.0.2",
+    "version":     "1.0.3",
     "type":        "library",
     "description": "Library for handling hooks.",
     "keywords": [
         "Hook",
+        "Actions",
+        "Action Hooks",
+        "HHVM",
         "PHP"
     ],
     "license": "MIT",

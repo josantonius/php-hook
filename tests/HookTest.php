@@ -21,6 +21,15 @@ use Josantonius\Hook\Hook;
 class HookTest { 
 
     /**
+     * Tests class name.
+     *
+     * @since 1.0.0
+     *
+     * @var object
+     */
+    public static 'Josantonius\Hook\Tests\Example';
+
+    /**
      * Add hooks.
      *
      * By default it will look for the 'getInstance' method to use singleton 
@@ -29,61 +38,99 @@ class HookTest {
      *
      * You can change the method name using Hook::setSingletonName().
      *
-     * @since 1.0.0
+     * @since 1.0.3
      */
-    public static function testAddHooks() {
+    public static function testAddHooksMethod() {
 
-        $Hook = Hook::getInstance();
-
-        $hooks = [
-            'css'        => 'Josantonius\Hook\Tests\Example@css',
-            'js'         => 'Josantonius\Hook\Tests\EExample@js',
-            'after-body' => 'Josantonius\Hook\Tests\Example@afterBody',
-            'footer'     => 'Josantonius\Hook\Tests\Example@footer',
-        ];
-
-        var_dump($Hook->addHook($hooks));
+        Hook::addAction('css',        [self::$class, 'css'], 2, 0);
+        Hook::addAction('meta',       [self::$class, 'met'], 1, 1);
+        Hook::addAction('js',         [self::$class, 'js'], 3, 0);
+        Hook::addAction('after-body', [self::$class, 'after-body']);
+        Hook::addAction('footer',     [self::$class, 'footer']);
     }
 
     /**
      * Add hooks.
      *
-     * By default it will look for the 'getInstance' method to use singleton 
-     * pattern and create a single instance of the class. If it does not
-     * exist it will create a new object.
+     * @since 1.0.3
      *
-     * You can change the method name using Hook::setSingletonName(),
-     *
-     * @since 1.0.0
+     * @return boolean
      */
-    public static function testSetSingletonName() {
-
-        $Hook = Hook::getInstance();
-
-        $Hook->setSingletonName('newSingletonMethodName');
+    public static function testAddHooksArray() {
 
         $hooks = [
-            'css'        => 'Josantonius\Hook\Tests\Example@css',
-            'js'         => 'Josantonius\Hook\Tests\EExample@js',
-            'after-body' => 'Josantonius\Hook\Tests\Example@afterBody',
-            'footer'     => 'Josantonius\Hook\Tests\Example@footer',
+
+            ['css',        [self::$class, 'css'], 2, 0],
+            ['meta',       [self::$class, 'meta'], 1, 0],
+            ['js',         [self::$class, 'js'], 3, 0],
+            ['after-body', [self::$class, 'afterBody']],
+            ['footer',     [self::$class, 'footer']],
         ];
 
-        var_dump($Hook->addHook($hooks));
+        return Hook::addActions($hooks);
     }
 
     /**
-     * Remove hook.
+     * Add hooks.
      *
-     * @since 1.0.2
+     * @since 1.0.3
+     *
+     * @return boolean
      */
-    public static function TestRemoveHook() {
+    public static function testAddHooksInstance() {
 
-        $Hook = Hook::getInstance();
+        $instance = call_user_func(self::$class, 'getInstance');
 
-        $Hook->addHook('example');
+        $hooks = [
 
-        var_dump($Hook->removeHook('example'));
+            ['css',        [$instance, 'css'], 2, 0],
+            ['meta',       [$instance, 'meta'], 1, 0],
+            ['js',         [$instance, 'js'], 3, 0],
+            ['after-body', [$instance, 'afterBody']],
+            ['footer',     [$instance, 'footer']],
+        ];
+
+        return Hook::addActions($hooks);
+    }
+
+    /**
+     * Set singleton name.
+     *
+     * @since 1.0.0
+     *
+     * @return boolean
+     */
+    public static function testSetSingletonName() {
+
+        $singleton = 'newSingletonMethodName';
+
+        Hook::setSingletonName($singleton);
+
+        $instance = call_user_func(self::$class, $singleton);
+
+        return Hook::addAction('css', [$instance, 'css'], 1, 0);
+    }
+
+    /**
+     * Get current hook.
+     *
+     * @since 1.0.3
+     */
+    public static function testCurrentHook() {
+
+        self::testAddHooksMethod();
+
+        Hook::doAction('meta', 'Argument for title');
+        Hook::doAction('css');
+
+        $current = Hook::current();
+
+        Hook::doAction('js');
+        Hook::doAction('after-body');
+
+        $current = Hook::current();
+
+        Hook::doAction('footer');
     }
 
     /**
@@ -93,36 +140,13 @@ class HookTest {
      */
     public static function testExecuteHooks() {
 
-        self::testAddHooks();
+        self::testAddHooksMethod();
 
-        Hook::run('meta');
-        Hook::run('css');
-        Hook::run('js');
-        Hook::run('after-body');
-        Hook::run('footer');
+        Hook::doAction('meta', 'Argument for title');
+        Hook::doAction('css');
+        Hook::doAction('js');
+        Hook::doAction('after-body');
+        Hook::doAction('footer');
     }
 
-    /**
-     * Set hook.
-     *
-     * @since 1.0.0
-     */
-    public static function testSetOneHook() {
-
-        Hook::setHook('beforeFooter');
-    }
-
-    /**
-     * Set hooks.
-     *
-     * @since 1.0.0
-     */
-    public static function testSetMultipleHooks() {
-
-        Hook::setHook([
-
-            'before-footer',
-            'top-right',
-        ]);
-    }
 }

@@ -42,11 +42,11 @@ También puedes clonar el repositorio completo con Git:
 
 Esta ĺibrería es soportada por versiones de PHP 5.6 o superiores y es compatible con versiones de HHVM 3.0 o superiores.
 
-Para utilizar esta librería en HHVM (HipHop Virtual Machine) tendrás que activar los tipos escalares. Añade la siguiente ĺínea "hhvm.php7.scalar_types = true" en tu "/etc/hhvm/php.ini".
+Para utilizar esta biblioteca en HHVM (HipHop Virtual Machine) tendrás que activar los tipos escalares. Añade la siguiente ĺínea "hhvm.php7.scalar_types = true" en tu "/etc/hhvm/php.ini".
 
 ### Cómo empezar y ejemplos
 
-Para utilizar esta librería, simplemente:
+Para utilizar esta biblioteca, simplemente:
 
 ```php
 require __DIR__ . '/vendor/autoload.php';
@@ -55,19 +55,19 @@ use Josantonius\Hook\Hook;
 ```
 ### Métodos disponibles
 
-Métodos disponibles en esta librería:
+Métodos disponibles en esta biblioteca:
 
 ```php
 Hook::getInstance();
 Hook::setSingletonName();
-Hook::setHook();
-Hook::addHook();
-Hook::run();
-Hook->collectHook();
+Hook::addAction();
+Hook::addActions();
+Hook::current();
 ```
+
 ### Uso
 
-Ejemplo de uso para esta librería:
+Ejemplo de uso para esta biblioteca:
 
 ```php
 <?php
@@ -75,22 +75,26 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Josantonius\Hook\Hook;
 
-$Hook = Hook::getInstance();
+/* Agregar acciones */
+
+Hook::addAction('css', ['Namespace\Class\Example', 'css'], 2, 0);
 
 $hooks = [
-    'css'        => 'Namespace\Class\Example@css',
-    'js'         => 'Namespace\Class\Example@js',
-    'after-body' => 'Namespace\Class\Example@afterBody',
-    'footer'     => 'Namespace\Class\Example@footer',
+    ['meta',       ['Namespace\Class\Example', 'meta'],      1, 0],
+    ['js',         ['Namespace\Class\Example', 'js'],        3, 0],
+    ['after-body', ['Namespace\Class\Example', 'afterBody'], 4, 0],
+    ['footer',     ['Namespace\Class\Example', 'footer'],    5, 0],
 ];
 
-$Hook->addHook($hooks);
+Hook::addActions($hooks);
 
-$Hook->run('meta');
-$Hook->run('css');
-$Hook->run('js');
-$Hook->run('after-body');
-$Hook->run('footer');
+/* Ejecutar acciones */
+
+Hook::doAction('meta');
+Hook::doAction('css');
+Hook::doAction('js');
+Hook::doAction('after-body');
+Hook::doAction('footer');
 ```
 
 ### Tests 
@@ -109,16 +113,17 @@ use Josantonius\Hook\Tests\HookTest;
 Métodos de prueba disponibles:
 
 ```php
-HookTest::testAddHooks();
+HookTest::testAddHooksMethod();
+HookTest::testAddHooksArray();
+HookTest::testAddHooksInstance();
 HookTest::testSetSingletonName();
+HookTest::testCurrentHook();
 HookTest::testExecuteHooks();
-HookTest::testSetOneHook();
-HookTest::testSetMultipleHooks();
 ```
 
 ### Manejador de excepciones
 
-Esta librería utiliza [control de excepciones](src/Exception) que puedes personalizar a tu gusto.
+Esta biblioteca utiliza [control de excepciones](src/Exception) que puedes personalizar a tu gusto.
 ### Contribuir
 1. Comprobar si hay incidencias abiertas o abrir una nueva para iniciar una discusión en torno a un fallo o función.
 1. Bifurca la rama del repositorio en GitHub para iniciar la operación de ajuste.
