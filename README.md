@@ -81,8 +81,8 @@ Hook::addAction($tag, $function, $priority, $args);
 | --- | --- | --- | --- | --- |
 | $tag | Action hook name | string | Yes | |
 | $function | Function to attach to action hook | callable | Yes | |
-| $priority | Set method name for use singleton pattern | int | No | 8 |
-| $args | Set method name for use singleton pattern | int | No | 0 |
+| $priority | Order in which the action is executed | int | No | 8 |
+| $args | Number of arguments accepted | int | No | 0 |
 
 **addActions()**
 ```php

@@ -57,11 +57,55 @@ use Josantonius\Hook\Hook;
 
 Métodos disponibles en esta biblioteca:
 
+
+**getInstance()**
 ```php
 Hook::getInstance();
-Hook::setSingletonName();
-Hook::addAction();
-Hook::addActions();
+```
+
+**setSingletonName()**
+```php
+Hook::setSingletonName($method);
+```
+
+| Atributo | Descripción | Tipo | Requerido | Por defecto
+| --- | --- | --- | --- | --- |
+| $method | Establecer el nombre del método para utilizar el patrón singleton | string | Sí | |
+
+**addAction()**
+```php
+Hook::addAction($tag, $function, $priority, $args);
+```
+
+| Atributo | Descripción | Tipo | Requerido | Por defecto
+| --- | --- | --- | --- | --- |
+| $tag | Nombre del gancho de acción | string | Sí | |
+| $function | Función donde insertat el gancho de acción | callable | Sí | |
+| $priority | Orden en que se ejecuta la acción | int | No | 8 |
+| $args | Establecer el nombre del método para utilizar el patrón singleton | int | No | 0 |
+
+**addActions()**
+```php
+Hook::addActions($actions);
+```
+
+| Atributo | Descripción | Tipo | Requerido | Por defecto
+| --- | --- | --- | --- | --- |
+| $actions | Acciones | array | Sí | |
+
+**doAction()**
+```php
+Hook::doAction($tag, $args, $remove);
+```
+
+| Atributo | Descripción | Tipo | Requerido | Por defecto
+| --- | --- | --- | --- | --- |
+| $tag | Nombre del gancho de acción | string | Sí | |
+| $args | Argumentos opcionales | mixed | No | array() |
+| $remove | Eliminar gancho después de ejecutar acciones | boolean | No | true |
+
+**current()**
+```php
 Hook::current();
 ```
 
