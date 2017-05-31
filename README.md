@@ -57,7 +57,12 @@ use Josantonius\Hook\Hook;
 
 Available methods in this library:
 
-**Hook::getInstance**();
+| Hook::getInstance() | Get instance | Type
+| --- | --- | --- |
+
+| Hook::getInstance() | Get instance | Type
+| --- | --- | --- |
+| Hook::getInstance() | Add a new button in the film pages of the Grifus theme with which you can copy the complete information with a single click. | [WordPress Plugin](https://github.com/Josantonius/Extensions-For-Grifus.git)
 
 **Hook::setSingletonName**($method);
 
