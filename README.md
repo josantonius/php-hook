@@ -65,38 +65,49 @@ Hook::getInstance();
 
 **setSingletonName()**
 ```php
-setSingletonName($method);
+Hook::setSingletonName($method);
 ```
 
-| Atttribute | Description | Type | 
+| Atttribute | Description | Type | Required | Default
 | --- | --- | --- |
-| $method | Set method name for use singleton pattern | string |
+| $method | Set method name for use singleton pattern | string | Yes | |
 
+**addAction()**
+```php
+Hook::addAction($tag, $function, $priority, $args);
+```
 
+| Atttribute | Description | Type | Required | Default
+| --- | --- | --- |
+| $tag | Action hook name | string | Yes | |
+| $function | Function to attach to action hook | callable | Yes | |
+| $priority | Set method name for use singleton pattern | int | No | 8 |
+| $args | Set method name for use singleton pattern | int | No | 0 |
 
-**Hook::addAction**($tag, $function, $priority, $args);
+**addActions()**
+```php
+Hook::addActions($actions);
+```
 
-$tag      → (**string**)         → Action hook name.
+| Atttribute | Description | Type | Required | Default
+| --- | --- | --- |
+| $actions | Actions hooks | array | Yes | |
 
-$func     → (**callable**) 		 → Function to attach to action hook.
+**doAction()**
+```php
+Hook::doAction($tag, $args, $remove);
+```
 
-$priority → (**int**) (Optional) → Order in which the action is executed.
+| Atttribute | Description | Type | Required | Default
+| --- | --- | --- |
+| $tag | Action hook name | string | Yes | |
+| $args | Optional arguments | mixed | No | array() |
+| $remove | Delete hook after executing actions | boolean | No | true |
 
-$args     → (**int**) (Optional) → Number of arguments accepted.
-
-**Hook::addActions**($actions);
-
-$actions → (**array**) → Number of arguments accepted.
-
-**Hook::doAction**($tag, $args, $remove);
-
-$tag    → (**string**) 		       → Action hook name.
-
-$args   → (**mixed**) (Optional)   → Optional arguments.
-
-$remove → (**boolean**) (Optional) → Delete hook after executing actions.
-
-**Hook::current**();
+**current()**
+```php
+Hook::current();
+```
 
 ### Usage
 
