@@ -57,13 +57,35 @@ use Josantonius\Hook\Hook;
 
 Available methods in this library:
 
-```php
-Hook::getInstance();
-Hook::setSingletonName();
-Hook::addAction();
-Hook::addActions();
-Hook::current();
-```
+**Hook::getInstance**();
+
+**Hook::setSingletonName**($method);
+
+$method → (**string**) → Set method name for use singleton pattern.
+
+**Hook::addAction**($tag, $function, $priority, $args);
+
+$tag      → (**string**)         → Action hook name.
+
+$func     → (**callable**) 		 → Function to attach to action hook.
+
+$priority → (**int**) (Optional) → Order in which the action is executed.
+
+$args     → (**int**) (Optional) → Number of arguments accepted.
+
+**Hook::addActions**($actions);
+
+$actions → (**array**) → Number of arguments accepted.
+
+**Hook::doAction**($tag, $args, $remove);
+
+$tag    → (**string**) 		       → Action hook name.
+
+$args   → (**mixed**) (Optional)   → Optional arguments.
+
+$remove → (**boolean**) (Optional) → Delete hook after executing actions.
+
+**Hook::current**();
 
 ### Usage
 
