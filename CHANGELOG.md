@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 1.0.4 - 2017-06-02
+
+Return was added in the doAction method. Useful for receiving actions that are only executed once.
+
+* Deleted `$_hooks` property.
+
+* Deleted `Josantonius\Hook\Hook::setHook()` method.
+* Deleted `Josantonius\Hook\Hook::addHook()` method.
+* Deleted `Josantonius\Hook\Hook::resetHook()` method.
+* Deleted `Josantonius\Hook\Hook::run()` method.
+* Deleted `Josantonius\Hook\Hook::collectHook()` method.
+
 ## 1.0.3 - 2017-05-31
 
 These deprecated methods will be removed as of version 1.0.4:
