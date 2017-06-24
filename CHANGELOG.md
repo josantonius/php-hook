@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.5 - 2017-06-24
+
+*The class was improved to work with different instances and some static methods were changed to dynamic ones.
+
 ## 1.0.4 - 2017-06-02
 
 Return was added in the doAction method. Useful for receiving actions that are only executed once.

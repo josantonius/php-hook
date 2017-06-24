@@ -21,13 +21,22 @@ use Josantonius\Hook\Exception\HookException;
 class Hook {
 
     /**
+     * Instance id.
+     *
+     * @since 1.0.5
+     *
+     * @var int
+     */
+    protected static $id = 0;
+
+    /**
      * Callbacks.
      *
      * @since 1.0.3
      *
      * @var array
      */
-    public static $callbacks = [];
+    protected $callbacks = [];
 
     /**
      * Number of actions executed.
@@ -36,7 +45,7 @@ class Hook {
      *
      * @var array
      */
-    public static $actions = ['count' => 0];
+    protected $actions = ['count' => 0];
 
     /**
      * Current action hook.
@@ -45,7 +54,7 @@ class Hook {
      *
      * @var string|false
      */
-    public static $current = false;
+    protected $current = false;
 
     /**
      * Method to use the singleton pattern and just create an instance.
@@ -54,7 +63,7 @@ class Hook {
      *
      * @var string
      */
-    public static $singleton = 'getInstance';
+    protected $singleton = 'getInstance';
 
     /**
      * Instances.
@@ -75,13 +84,15 @@ class Hook {
      * @return object → instance
      */
     public static function getInstance($id = 0) {
-        
-        if (isset(self::$_instances[$id])) {
 
-            return self::$_instances[$id];
+        self::$id = $id;
+        
+        if (isset(self::$_instances[self::$id])) {
+
+            return self::$_instances[self::$id];
         } 
         
-        return self::$_instances[$id] = new self;
+        return self::$_instances[self::$id] = new self;
     }
 
     /**
@@ -93,7 +104,9 @@ class Hook {
      */
     public static function setSingletonName($method) {
 
-        self::$singleton = $method;
+        $that = getInstance(self::$id);
+
+        $that->singleton = $method;
     }
 
     /**
@@ -110,7 +123,9 @@ class Hook {
      */
     public static function addAction($tag, $func, $priority=8, $args=0) {
 
-        self::$callbacks[$tag][$priority][] = [
+        $that = getInstance(self::$id);
+
+        $that->callbacks[$tag][$priority][] = [
 
             'function'  => $func,
             'arguments' => $args
@@ -157,18 +172,20 @@ class Hook {
      */
     public static function doAction($tag, $args = [], $remove = true) {
 
-        self::$current = $tag;
+        $that = getInstance(self::$id);
 
-        self::$actions['count']++;
+        $that->current = $tag;
 
-        if (!array_key_exists($tag, self::$actions)) {
+        $that->actions['count']++;
 
-            self::$actions[$tag] = 0;
+        if (!array_key_exists($tag, $that->actions)) {
+
+            $that->actions[$tag] = 0;
         }
 
-        self::$actions[$tag]++;
+        $that->actions[$tag]++;
 
-        $actions = self::_getActions($tag, $remove);
+        $actions = $that->_getActions($tag, $remove);
 
         asort($actions);
 
@@ -176,11 +193,11 @@ class Hook {
 
             foreach ($priority as $action) {
 
-                $action = self::_runAction($action, $args);
+                $action = $that->_runAction($action, $args);
             }
         }
 
-        self::$current = false;
+        $that->current = false;
 
         return (isset($action)) ? $action : false;
     }
@@ -193,9 +210,11 @@ class Hook {
      * @param string  $action → action hook
      * @param int     $args   → arguments
      *
-     * @return object|false → returns the calling function
+     * @return callable|false → returns the calling function
      */
-    private static function _runAction($action, $args) {
+    private function _runAction($action, $args) {
+
+        $that = getInstance(self::$id);
 
         $function   = $action['function'];
         $argsNumber = $action['arguments'];
@@ -203,24 +222,24 @@ class Hook {
         $class  = (isset($function[0])) ? $function[0] : false;
         $method = (isset($function[1])) ? $function[1] : false;
 
-        $args = self::_getArguments($argsNumber, $args);
+        $args = $that->_getArguments($argsNumber, $args);
 
         if (!($class && $method) && function_exists($function)) {
 
-            call_user_func($function, $args);
+            return call_user_func($function, $args);
 
-        } else if ($obj = call_user_func([$class, self::$singleton])) {
+        } else if ($obj = call_user_func([$class, $that->$singleton])) {
 
             if ($obj !== false) {
 
-                call_user_func_array([$obj, $method], $args);
+                return call_user_func_array([$obj, $method], $args);
             }
 
         } else {
 
             $instance = new $class;
 
-            call_user_func_array([$instance, $method], $args);
+            return call_user_func_array([$instance, $method], $args);
         }
     }
 
@@ -234,15 +253,17 @@ class Hook {
      *
      * @return object|false → returns the calling function
      */
-    private static function _getActions($tag, $remove) {
+    private function _getActions($tag, $remove) {
 
-        if (isset(self::$callbacks[$tag])) {
+        $that = getInstance(self::$id);
 
-            $actions = self::$callbacks[$tag];
+        if (isset($that->callbacks[$tag])) {
+
+            $actions = $that->callbacks[$tag];
 
             if ($remove) {
 
-                unset(self::$callbacks[$tag]);
+                unset($that->callbacks[$tag]);
             }
         }
 
@@ -259,7 +280,7 @@ class Hook {
      *
      * @return array → arguments
      */
-    private static function _getArguments($argsNumber, $arguments) {
+    private function _getArguments($argsNumber, $arguments) {
 
         if ($argsNumber == 1 && is_string($arguments)) {
 
@@ -294,6 +315,8 @@ class Hook {
      */
     public static function current() {
 
-        return self::$current;
+        $that = getInstance(self::$id);
+
+        return $that->current;
     }
 }
