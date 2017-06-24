@@ -27,7 +27,7 @@ class Hook {
      *
      * @var int
      */
-    protected static $id = 0;
+    protected static $id = '0';
 
     /**
      * Callbacks.
@@ -83,16 +83,16 @@ class Hook {
      *
      * @return object → instance
      */
-    public static function getInstance($id = 0) {
+    public static function getInstance($id = '0') {
 
         self::$id = $id;
         
-        if (isset(self::$_instances[$id])) {
+        if (isset(self::$_instances[self::$id])) {
 
-            return self::$_instances[$id];
+            return self::$_instances[self::$id];
         } 
         
-        return self::$_instances[$id] = new self;
+        return self::$_instances[self::$id] = new self;
     }
 
     /**
