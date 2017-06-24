@@ -104,7 +104,7 @@ class Hook {
      */
     public static function setSingletonName($method) {
 
-        $that = getInstance(self::$id);
+        $that = self::getInstance(self::$id);
 
         $that->singleton = $method;
     }
@@ -123,7 +123,7 @@ class Hook {
      */
     public static function addAction($tag, $func, $priority=8, $args=0) {
 
-        $that = getInstance(self::$id);
+        $that = self::getInstance(self::$id);
 
         $that->callbacks[$tag][$priority][] = [
 
@@ -172,7 +172,7 @@ class Hook {
      */
     public static function doAction($tag, $args = [], $remove = true) {
 
-        $that = getInstance(self::$id);
+        $that = self::getInstance(self::$id);
 
         $that->current = $tag;
 
@@ -214,7 +214,7 @@ class Hook {
      */
     private function _runAction($action, $args) {
 
-        $that = getInstance(self::$id);
+        $that = self::getInstance(self::$id);
 
         $function   = $action['function'];
         $argsNumber = $action['arguments'];
@@ -255,7 +255,7 @@ class Hook {
      */
     private function _getActions($tag, $remove) {
 
-        $that = getInstance(self::$id);
+        $that = self::getInstance(self::$id);
 
         if (isset($that->callbacks[$tag])) {
 
@@ -315,7 +315,7 @@ class Hook {
      */
     public static function current() {
 
-        $that = getInstance(self::$id);
+        $that = self::getInstance(self::$id);
 
         return $that->current;
     }
