@@ -228,7 +228,7 @@ class Hook {
 
             return call_user_func($function, $args);
 
-        } else if ($obj = call_user_func([$class, $that->$singleton])) {
+        } else if ($obj = call_user_func([$class, $that->singleton])) {
 
             if ($obj !== false) {
 
