@@ -87,12 +87,12 @@ class Hook {
 
         self::$id = $id;
         
-        if (isset(self::$_instances[self::$id])) {
+        if (isset(self::$_instances[$id])) {
 
-            return self::$_instances[self::$id];
+            return self::$_instances[$id];
         } 
         
-        return self::$_instances[self::$id] = new self;
+        return self::$_instances[$id] = new self;
     }
 
     /**
