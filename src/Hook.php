@@ -54,7 +54,7 @@ class Hook {
      *
      * @var string|false
      */
-    protected $current = false;
+    protected static $current = false;
 
     /**
      * Method to use the singleton pattern and just create an instance.
@@ -174,7 +174,7 @@ class Hook {
 
         $that = self::getInstance(self::$id);
 
-        $that->current = $tag;
+        self::$current = $tag;
 
         $that->actions['count']++;
 
@@ -197,7 +197,7 @@ class Hook {
             }
         }
 
-        $that->current = false;
+        self::$current = false;
 
         return (isset($action)) ? $action : false;
     }
@@ -214,21 +214,19 @@ class Hook {
      */
     private function _runAction($action, $args) {
 
-        $that = self::getInstance(self::$id);
-
         $function   = $action['function'];
         $argsNumber = $action['arguments'];
 
         $class  = (isset($function[0])) ? $function[0] : false;
         $method = (isset($function[1])) ? $function[1] : false;
 
-        $args = $that->_getArguments($argsNumber, $args);
+        $args = $this->_getArguments($argsNumber, $args);
 
         if (!($class && $method) && function_exists($function)) {
 
             return call_user_func($function, $args);
 
-        } else if ($obj = call_user_func([$class, $that->singleton])) {
+        } else if ($obj = call_user_func([$class, $this->singleton])) {
 
             if ($obj !== false) {
 
@@ -255,15 +253,13 @@ class Hook {
      */
     private function _getActions($tag, $remove) {
 
-        $that = self::getInstance(self::$id);
+        if (isset($this->callbacks[$tag])) {
 
-        if (isset($that->callbacks[$tag])) {
-
-            $actions = $that->callbacks[$tag];
+            $actions = $this->callbacks[$tag];
 
             if ($remove) {
 
-                unset($that->callbacks[$tag]);
+                unset($this->callbacks[$tag]);
             }
         }
 
@@ -315,8 +311,6 @@ class Hook {
      */
     public static function current() {
 
-        $that = self::getInstance(self::$id);
-
-        return $that->current;
+        return self::$current;
     }
 }
