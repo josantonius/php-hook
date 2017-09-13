@@ -1,5 +1,51 @@
 # CHANGELOG
 
+## 1.0.6 - 2017-09-13
+
+* Unit tests supported by `PHPUnit` were added.
+
+* The repository was synchronized with Travis CI to implement continuous integration.
+ 
+* Added `Hook/src/bootstrap.php` file
+
+* Added `Hook/tests/bootstrap.php` file.
+
+* Added `Hook/phpunit.xml.dist` file.
+* Added `Hook/_config.yml` file.
+* Added `Hook/.travis.yml` file.
+
+* Deleted `Josantonius\Hook\Tests\HookTest::testAddHooksMethod()` method.
+* Deleted `Josantonius\Hook\Tests\HookTest::testAddHooksArray()` method.
+* Deleted `Josantonius\Hook\Tests\HookTest::testAddHooksInstance()` method.
+* Deleted `Josantonius\Hook\Tests\HookTest::testCurrentHook()` method.
+* Deleted `Josantonius\Hook\Tests\HookTest::testSetSingletonName()` method.
+
+* Deleted `Josantonius\Hook\Exception\HookException` class.
+* Deleted `Josantonius\Hook\Exception\Exceptions` abstract class.
+* Deleted `Josantonius\Hook\Exception\HookException->__construct()` method.
+
+* Added `Josantonius\Hook\Test\HookTest::testAddAction()` method.
+* Added `Josantonius\Hook\Test\HookTest::testAddActionWithPriority()` method.
+* Added `Josantonius\Hook\Test\HookTest::testAddActionWithPriorityAndArguments()` method.
+* Added `Josantonius\Hook\Test\HookTest::testAddActionWithCustomSingletonMethod()` method.
+* Added `Josantonius\Hook\Test\HookTest::testAddMultipleActions()` method.
+* Added `Josantonius\Hook\Test\HookTest::testAddMultipleActionsWithCustomSingletonMethod()` method.
+* Added `Josantonius\Hook\Test\HookTest::testDoActions()` method.
+* Added `Josantonius\Hook\Test\HookTest::testDoActionAndGetCurrentHook()` method.
+* Added `Josantonius\Hook\Test\HookTest::testDoActionsWithArguments()` method.
+
+* Added `Josantonius\Hook\Test\Example` class.
+* Added `Josantonius\Hook\Test\Example::getInstance()` method.
+* Added `Josantonius\Hook\Test\Example::singletonMethod()` method.
+* Added `Josantonius\Hook\Test\Example::meta()` method.
+* Added `Josantonius\Hook\Test\Example::css()` method.
+* Added `Josantonius\Hook\Test\Example::js()` method.
+* Added `Josantonius\Hook\Test\Example::afterBody()` method.
+* Added `Josantonius\Hook\Test\Example::slide()` method.
+* Added `Josantonius\Hook\Test\Example::form()` method.
+* Added `Josantonius\Hook\Test\Example::article()` method.
+* Added `Josantonius\Hook\Test\Example::footer()` method.
+
 ## 1.0.5 - 2017-06-24
 
 *The class was improved to work with different instances and some static methods were changed to dynamic ones.
@@ -51,14 +97,17 @@ These deprecated methods will be removed as of version 1.0.4:
 * Added `$current` property.
 
 ## 1.0.2 - 2017-05-19
+
 * Added option to remove custom function to hook.
 
 * Added `Josantonius\Hook\Hook::resetHook()` method.
 
 ## 1.0.1 - 2017-03-18
+
 * Some files were excluded from download and comments and readme files were updated.
 
 ## 1.0.0 - 2017-03-15
+
 * Added `Josantonius\Hook\Hook` class.
 * Added `Josantonius\Hook\Hook::getInstance()` method.
 * Added `Josantonius\Hook\Hook::setSingletonName()` method.
@@ -68,11 +117,13 @@ These deprecated methods will be removed as of version 1.0.4:
 * Added `Josantonius\Hook\Hook->collectHook()` method.
 
 ## 1.0.0 - 2017-03-15
+
 * Added `Josantonius\Hook\Exception\HookException` class.
 * Added `Josantonius\Hook\Exception\Exceptions` abstract class.
 * Added `Josantonius\Hook\Exception\HookException->__construct()` method.
 
 ## 1.0.0 - 2017-03-15
+
 * Added `Josantonius\Hook\Tests\HookTest` class.
 * Added `Josantonius\Hook\Tests\HookTest::testAddHooks()` method.
 * Added `Josantonius\Hook\Tests\HookTest::testSetSingletonName()` method.

@@ -1,6 +1,6 @@
 # PHP Hook library
 
-[![Latest Stable Version](https://poser.pugx.org/josantonius/hook/v/stable)](https://packagist.org/packages/josantonius/hook) [![Total Downloads](https://poser.pugx.org/josantonius/hook/downloads)](https://packagist.org/packages/josantonius/hook) [![Latest Unstable Version](https://poser.pugx.org/josantonius/hook/v/unstable)](https://packagist.org/packages/josantonius/hook) [![License](https://poser.pugx.org/josantonius/hook/license)](https://packagist.org/packages/josantonius/hook)
+[![Latest Stable Version](https://poser.pugx.org/josantonius/hook/v/stable)](https://packagist.org/packages/josantonius/hook) [![Total Downloads](https://poser.pugx.org/josantonius/hook/downloads)](https://packagist.org/packages/josantonius/hook) [![Latest Unstable Version](https://poser.pugx.org/josantonius/hook/v/unstable)](https://packagist.org/packages/josantonius/hook) [![License](https://poser.pugx.org/josantonius/hook/license)](https://packagist.org/packages/josantonius/hook) [![Travis](https://travis-ci.org/Josantonius/PHP-Hook.svg)](https://travis-ci.org/Josantonius/PHP-Hook)
 
 [Versión en español](README-ES.md)
 
@@ -19,16 +19,6 @@ Library for handling hooks.
 - [Repository](#repository)
 - [License](#license)
 - [Copyright](#copyright)
-
----
-
-<p align="center"><strong>Echa un vistazo al código</strong></p>
-
-<p align="center">
-  <a href="" title="Echa un vistazo al código">
-  	<img src="https://raw.githubusercontent.com/Josantonius/PHP-Algorithm/master/resources/youtube-thumbnail.jpg">
-  </a>
-</p>
 
 ---
 
@@ -153,28 +143,13 @@ Hook::doAction('footer');
 
 ### Tests 
 
-To use the [test](tests) class, simply:
+To run [tests](tests/Hook/test) simply:
 
-```php
-<?php
-$loader = require __DIR__ . '/vendor/autoload.php';
+    $ git clone https://github.com/Josantonius/PHP-Hook.git
+    
+    $ cd PHP-Hook
 
-$loader->addPsr4('Josantonius\\Hook\\Tests\\', __DIR__ . '/vendor/josantonius/hook/tests');
-
-use Josantonius\Hook\Tests\HookTest;
-
-```
-
-Available test methods in this library:
-
-```php
-HookTest::testAddHooksMethod();
-HookTest::testAddHooksArray();
-HookTest::testAddHooksInstance();
-HookTest::testSetSingletonName();
-HookTest::testCurrentHook();
-HookTest::testExecuteHooks();
-```
+    $ phpunit
 
 ### Exception Handler
 
