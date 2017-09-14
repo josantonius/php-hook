@@ -143,7 +143,7 @@ Hook::doAction('footer');
 
 ### Tests 
 
-Para ejecutar las [pruebas](tests/Hook/test) simplemente:
+Para ejecutar las [pruebas](tests/Hook/Test) simplemente:
 
     $ git clone https://github.com/Josantonius/PHP-Hook.git
     
