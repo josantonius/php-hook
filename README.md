@@ -15,6 +15,7 @@ Library for handling hooks.
 - [Usage](#usage)
 - [Tests](#tests)
 - [Exception Handler](#exception-handler)
+- [TODO](#-todo)
 - [Contribute](#contribute)
 - [Repository](#repository)
 - [License](#license)
@@ -150,6 +151,11 @@ To run [tests](tests/Hook/Test) simply:
     $ cd PHP-Hook
 
     $ phpunit
+
+### ☑ TODO
+
+- [x] Create tests
+- [ ] Improve documentation
 
 ### Exception Handler
 
