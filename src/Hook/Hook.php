@@ -245,7 +245,7 @@ class Hook {
                 return call_user_func_array([$obj, $method], $args);
             }
 
-        } else {
+        } else if (class_exists($class)) {
 
             $instance = new $class;
 
