@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.0.7 - 2017-10-18
+
+* Added `Josantonius\Hook\Hook::isAction()` method.
+
+* Added `Josantonius\Hook\Test\HookTest::testIsAction()` method.
+* Added `Josantonius\Hook\Test\HookTest::testIsNotAction()` method.
+
 ## 1.0.6 - 2017-09-13
 
 * Unit tests supported by `PHPUnit` were added.

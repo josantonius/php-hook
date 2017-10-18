@@ -213,7 +213,23 @@ class Hook {
 
         return self::$current;
     }
-    
+
+    /**
+     * Returns the current action hook.
+     *
+     * @since 1.0.7
+     *
+     * @param string $tag → action hook name
+     *
+     * @return string|false → current action hook
+     */
+    public static function isAction($tag) {
+
+        $that = self::getInstance(self::$id);
+
+        return (isset($that->callbacks[$tag]));
+    }
+
     /**
      * Run action hook.
      *

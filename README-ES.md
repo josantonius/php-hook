@@ -110,6 +110,15 @@ Hook::doAction($tag, $args, $remove);
 Hook::current();
 ```
 
+**isAction()**
+```php
+Hook::isAction($tag);
+```
+
+| Atttribute | Description | Type | Required | Default
+| --- | --- | --- | --- | --- |
+| $tag | Action hook name | string | Yes | |
+
 ### Uso
 
 Ejemplo de uso para esta biblioteca:

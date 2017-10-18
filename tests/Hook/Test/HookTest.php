@@ -138,6 +138,41 @@ final class HookTest extends TestCase {
     }
 
     /**
+     * Check if is action.
+     *
+     * @since 1.0.7
+     *
+     * @return void
+     */
+    public function testIsAction() {
+
+        $this->assertTrue(
+
+            Hook::isAction('meta')
+        );
+
+        $this->assertTrue(
+
+            Hook::isAction('form')
+        );
+    }
+
+    /**
+     * Check if isn`t action.
+     *
+     * @since 1.0.7
+     *
+     * @return void
+     */
+    public function testIsNotAction() {
+
+        $this->assertFalse(
+
+            Hook::isAction('unknown')
+        );
+    }
+
+    /**
      * Execute action hooks.
      *
      * @since 1.0.6
