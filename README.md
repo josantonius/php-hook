@@ -269,7 +269,7 @@ Run all previous tests:
 ## ☑ TODO
 
 - [x] Create tests
-- [ ] Improve documentation
+- [x] Improve documentation
 
 ## Contribute
 1. Check for open issues or open a new issue to start a discussion around a bug or feature.
