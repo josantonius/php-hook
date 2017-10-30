@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## 1.0.8 - 2017-10-30
+
+* Implemented `PSR-4 autoloader standard` from all library files.
+
+* Implemented `PSR-2 coding standard` from all library PHP files.
+
+* Implemented `PHPCS` to ensure that PHP code complies with `PSR2` code standards.
+
+* Implemented `Codacy` to automates code reviews and monitors code quality over time.
+
+* Implemented `Codecov` to coverage reports.
+
+* Added `Hook/phpcs.ruleset.xml` file.
+
+* Deleted `Hook/src/bootstrap.php` file.
+
+* Deleted `Hook/tests/bootstrap.php` file.
+
+* Deleted `Hook/vendor` folder.
+
+* Changed `Josantonius\Hook\Test\HookTest` class to  `Josantonius\Hook\HookTest` class.
+
+
 ## 1.0.7 - 2017-10-18
 
 * Added `Josantonius\Hook\Hook::isAction()` method.

@@ -1,6 +1,6 @@
 # PHP Hook library
 
-[![Latest Stable Version](https://poser.pugx.org/josantonius/hook/v/stable)](https://packagist.org/packages/josantonius/hook) [![Total Downloads](https://poser.pugx.org/josantonius/hook/downloads)](https://packagist.org/packages/josantonius/hook) [![Latest Unstable Version](https://poser.pugx.org/josantonius/hook/v/unstable)](https://packagist.org/packages/josantonius/hook) [![License](https://poser.pugx.org/josantonius/hook/license)](https://packagist.org/packages/josantonius/hook) [![Travis](https://travis-ci.org/Josantonius/PHP-Hook.svg)](https://travis-ci.org/Josantonius/PHP-Hook)
+[![Latest Stable Version](https://poser.pugx.org/josantonius/Hook/v/stable)](https://packagist.org/packages/josantonius/Hook) [![Latest Unstable Version](https://poser.pugx.org/josantonius/Hook/v/unstable)](https://packagist.org/packages/josantonius/Hook) [![License](https://poser.pugx.org/josantonius/Hook/license)](LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/22a7928128324c3e8a7ca9ea4aa2abcb)](https://www.codacy.com/app/Josantonius/PHP-Hook?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Josantonius/PHP-Hook&amp;utm_campaign=Badge_Grade) [![Total Downloads](https://poser.pugx.org/josantonius/Hook/downloads)](https://packagist.org/packages/josantonius/Hook) [![Travis](https://travis-ci.org/Josantonius/PHP-Hook.svg)](https://travis-ci.org/Josantonius/PHP-Hook) [![PSR2](https://img.shields.io/badge/PSR-2-1abc9c.svg)](http://www.php-fig.org/psr/psr-2/) [![PSR4](https://img.shields.io/badge/PSR-4-9b59b6.svg)](http://www.php-fig.org/psr/psr-4/) [![CodeCov](https://codecov.io/gh/Josantonius/PHP-Hook/branch/master/graph/badge.svg)](https://codecov.io/gh/Josantonius/PHP-Hook)
 
 [English version](README.md)
 
@@ -8,13 +8,12 @@ Biblioteca para manejo de hooks.
 
 ---
 
-- [Instalación](#instalación)
 - [Requisitos](#requisitos)
-- [Cómo empezar y ejemplos](#cómo-empezar-y-ejemplos)
+- [Instalación](#instalación)
 - [Métodos disponibles](#métodos-disponibles)
+- [Cómo empezar](#cómo-empezar)
 - [Uso](#uso)
 - [Tests](#tests)
-- [Manejador de excepciones](#manejador-de-excepciones)
 - [Tareas pendientes](#-tareas-pendientes)
 - [Contribuir](#contribuir)
 - [Repositorio](#repositorio)
@@ -23,152 +22,254 @@ Biblioteca para manejo de hooks.
 
 ---
 
-### Instalación 
+## Requisitos
 
-La mejor forma de instalar esta extensión es a través de [composer](http://getcomposer.org/download/).
+Esta clase es soportada por versiones de **PHP 5.6** o superiores y es compatible con versiones de **HHVM 3.0** o superiores.
 
-Para instalar PHP Hook library, simplemente escribe:
+## Instalación 
+
+La mejor forma de instalar esta extensión es a través de [Composer](http://getcomposer.org/download/).
+
+Para instalar **PHP Hook library**, simplemente escribe:
 
     $ composer require Josantonius/Hook
 
-El comando anterior sólo instalará los archivos necesarios, si prefieres descargar todo el código fuente (incluyendo tests, directorio vendor, excepciones no utilizadas, documentos...) puedes utilizar:
+El comando anterior sólo instalará los archivos necesarios, si prefieres **descargar todo el código fuente** puedes utilizar:
 
     $ composer require Josantonius/Hook --prefer-source
 
-También puedes clonar el repositorio completo con Git:
+También puedes **clonar el repositorio** completo con Git:
 
-	$ git clone https://github.com/Josantonius/PHP-Hook.git
+  $ git clone https://github.com/Josantonius/PHP-Hook.git
 
-### Requisitos
+O **instalarlo manualmente**:
 
-Esta biblioteca es soportada por versiones de PHP 5.6 o superiores y es compatible con versiones de HHVM 3.0 o superiores.
+[Descargar Hook.php](https://raw.githubusercontent.com/Josantonius/PHP-Hook/master/src/Hook.php):
 
-Para utilizar esta biblioteca en HHVM (HipHop Virtual Machine) tendrás que activar los tipos escalares. Añade la siguiente ĺínea "hhvm.php7.scalar_types = true" en tu "/etc/hhvm/php.ini".
+    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Hook/master/src/Hook.php
 
-### Cómo empezar y ejemplos
-
-Para utilizar esta biblioteca, simplemente:
-
-```php
-require __DIR__ . '/vendor/autoload.php';
-
-use Josantonius\Hook\Hook;
-```
 ### Métodos disponibles
 
 Métodos disponibles en esta biblioteca:
 
+### - Obtener instancia:
 
-**getInstance()**
 ```php
 Hook::getInstance();
 ```
 
-**setSingletonName()**
+| Atributo | Descripción | Tipo | Requerido | Predeterminado
+| --- | --- | --- | --- | --- |
+| $id | ID único para multiples instancias. | string | No | '0' |
+
+**# Return** (object) → instancia
+
+### - Definir el nombre del método para usar el patrón singleton:
+
 ```php
 Hook::setSingletonName($method);
 ```
 
-| Atributo | Descripción | Tipo | Requerido | Por defecto
+| Atributo | Descripción | Tipo | Requerido | Predeterminado
 | --- | --- | --- | --- | --- |
-| $method | Establecer el nombre del método para utilizar el patrón singleton | string | Sí | |
+| $method | Definir el nombre del método para usar el patrón singleton. | callable | No | |
 
-**addAction()**
+**# Return** (void)
+
+### - Agregar función personalizado al gancho de acción:
+
 ```php
 Hook::addAction($tag, $function, $priority, $args);
 ```
 
-| Atributo | Descripción | Tipo | Requerido | Por defecto
+| Atributo | Descripción | Tipo | Requerido | Predeterminado
 | --- | --- | --- | --- | --- |
-| $tag | Nombre del gancho de acción | string | Sí | |
-| $function | Función donde insertat el gancho de acción | callable | Sí | |
-| $priority | Orden en que se ejecuta la acción | int | No | 8 |
-| $args | Establecer el nombre del método para utilizar el patrón singleton | int | No | 0 |
+| $tag | Nombre del gancho de acción. | string | Sí | |
+| $function | Función donde insertar el gancho de acción. | callable | Sí | |
+| $priority | Orden en que se ejecuta la acción. | int | No | 8 |
+| $args | Número de argumentos aceptados. | int | No | 0 |
 
-**addActions()**
+**# Return** (boolean)
+
+### - Agregar acciones desde array:
+
 ```php
 Hook::addActions($actions);
 ```
 
-| Atributo | Descripción | Tipo | Requerido | Por defecto
+| Atributo | Descripción | Tipo | Requerido | Predeterminado
 | --- | --- | --- | --- | --- |
 | $actions | Acciones | array | Sí | |
 
-**doAction()**
+**# Return** (boolean)
+
+### - Ejecutar todos los ganchos de determinada acción:
+
+Por defecto, buscará el método `getInstance()` para usar el patrón singleton y crear una única instancia de la clase. Si no existe, creará un nuevo objeto.
+
 ```php
 Hook::doAction($tag, $args, $remove);
 ```
 
-| Atributo | Descripción | Tipo | Requerido | Por defecto
+| Atributo | Descripción | Tipo | Requerido | Predeterminado
 | --- | --- | --- | --- | --- |
-| $tag | Nombre del gancho de acción | string | Sí | |
-| $args | Argumentos opcionales | mixed | No | array() |
+| $tag | Nombre del gancho de acción. | string | Sí | |
+| $args | Argumentos opcionales. | mixed | No | array() |
 | $remove | Eliminar gancho después de ejecutar acciones | boolean | No | true |
 
-**current()**
+**# Return** (mixed|false) → salida de la última acción o falso
+
+### - Obtener el gancho de acción actual:
+
 ```php
 Hook::current();
 ```
 
-**isAction()**
+**# Return** (string|false) → gancho de acción actual
+
+### - Comprobar si existe determinado gancho de acción:
+
 ```php
 Hook::isAction($tag);
 ```
 
-| Atttribute | Description | Type | Required | Default
+| Atributo | Descripción | Tipo | Requerido | Predeterminado
 | --- | --- | --- | --- | --- |
-| $tag | Action hook name | string | Yes | |
+| $tag | Nombre del gancho de acción | string | Sí | |
 
-### Uso
+**# Return** (boolean)
 
-Ejemplo de uso para esta biblioteca:
+### Cómo empezar
+
+Para utilizar esta biblioteca, simplemente:
+
+Para utilizar esta biblioteca con **Composer**:
 
 ```php
-<?php
 require __DIR__ . '/vendor/autoload.php';
 
 use Josantonius\Hook\Hook;
+```
 
-/* Agregar acciones */
+Si la instalaste **manualmente**, utiliza:
 
-Hook::addAction('css', ['Namespace\Class\Example', 'css'], 2, 0);
+```php
+require_once __DIR__ . '/Hook.php';
 
-$hooks = [
-    ['meta',       ['Namespace\Class\Example', 'meta'],      1, 0],
-    ['js',         ['Namespace\Class\Example', 'js'],        3, 0],
-    ['after-body', ['Namespace\Class\Example', 'afterBody'], 4, 0],
-    ['footer',     ['Namespace\Class\Example', 'footer'],    5, 0],
-];
+use Josantonius\Hook\Hook;
+```
 
-Hook::addActions($hooks);
+### Uso
 
-/* Ejecutar acciones */
+### - Agregar gancho de acción:
 
-Hook::doAction('meta');
+```php
+Hook::addAction('css', ['Josantonius\Hook\Test\Example', 'css']);
+```
+
+### - Agregar gancho de acción con prioridad:
+
+```php
+Hook::addAction('js', ['Josantonius\Hook\Test\Example', 'js'], 1);
+```
+
+### - Agregar gancho de acción con prioridad y número de argumentos:
+
+```php
+$instance = new Example;
+
+Hook::addAction('meta', [$instance, 'meta'], 2, 1);
+```
+
+### - Agregar gancho de acción y definir patrón singleton:
+
+```php
+Hook::setSingletonName('singletonMethod');
+
+$instance = call_user_func(
+    'Josantonius\Hook\Test\Example::singletonMethod'
+);
+
+Hook::addAction('article', [$instance, 'article'], 3, 0);
+```
+
+### - Agregar múltiples ganchos de acción:
+
+```php
+$instance = new Example;
+        
+Hook::addActions([
+    ['after-body', [$instance, 'afterBody'], 4, 0],
+    ['footer', [$instance, 'footer'], 5, 0],
+]);
+```
+
+### - Agregar múltiples ganchos de acción y definir patrón singleton:
+
+```php
+Hook::setSingletonName('singletonMethod');
+
+$instance = call_user_func(
+    'Josantonius\Hook\Test\Example::singletonMethod'
+);
+
+Hook::addActions([
+    ['slide', [$instance, 'slide'], 6, 0],
+    ['form', [$instance, 'form'], 7, 2],
+]);
+```
+
+### - Comprobar si una acción ha sido definida:
+
+```php
+Hook::setSingletonName('singletonMethod');
+
+Hook::isAction('meta');
+```
+
+### - Ejecutar ganchos de acción:
+
+```php
 Hook::doAction('css');
 Hook::doAction('js');
 Hook::doAction('after-body');
+Hook::doAction('article');
 Hook::doAction('footer');
+```
+
+### - Ejecutar ganchos de acción con argumentos:
+
+```php
+Hook::doAction('meta', 'The title');
+Hook::doAction('form', ['input', 'select']);
 ```
 
 ### Tests 
 
-Para ejecutar las [pruebas](tests/Hook/Test) simplemente:
+Para ejecutar las [pruebas](tests) necesitarás [Composer](http://getcomposer.org/download/) y seguir los siguientes pasos:
 
     $ git clone https://github.com/Josantonius/PHP-Hook.git
     
     $ cd PHP-Hook
 
-    $ phpunit
+    $ composer install
 
-### Manejador de excepciones
+Ejecutar pruebas unitarias con [PHPUnit](https://phpunit.de/):
 
-Esta biblioteca utiliza [control de excepciones](src/Exception) que puedes personalizar a tu gusto.
+    $ composer phpunit
+
+Ejecutar pruebas de estándares de código [PSR2](http://www.php-fig.org/psr/psr-2/) con [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer):
+
+    $ composer phpcs
+
+Ejecutar todas las pruebas anteriores:
+
+    $ composer tests
 
 ### ☑ Tareas pendientes
 
 - [x] Completar tests
-- [ ] Mejorar la documentación
+- [x] Mejorar la documentación
 
 ### Contribuir
 

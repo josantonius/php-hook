@@ -1,6 +1,6 @@
 # PHP Hook library
 
-[![Latest Stable Version](https://poser.pugx.org/josantonius/hook/v/stable)](https://packagist.org/packages/josantonius/hook) [![Total Downloads](https://poser.pugx.org/josantonius/hook/downloads)](https://packagist.org/packages/josantonius/hook) [![Latest Unstable Version](https://poser.pugx.org/josantonius/hook/v/unstable)](https://packagist.org/packages/josantonius/hook) [![License](https://poser.pugx.org/josantonius/hook/license)](https://packagist.org/packages/josantonius/hook) [![Travis](https://travis-ci.org/Josantonius/PHP-Hook.svg)](https://travis-ci.org/Josantonius/PHP-Hook)
+[![Latest Stable Version](https://poser.pugx.org/josantonius/Hook/v/stable)](https://packagist.org/packages/josantonius/Hook) [![Latest Unstable Version](https://poser.pugx.org/josantonius/Hook/v/unstable)](https://packagist.org/packages/josantonius/Hook) [![License](https://poser.pugx.org/josantonius/Hook/license)](LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/22a7928128324c3e8a7ca9ea4aa2abcb)](https://www.codacy.com/app/Josantonius/PHP-Hook?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Josantonius/PHP-Hook&amp;utm_campaign=Badge_Grade) [![Total Downloads](https://poser.pugx.org/josantonius/Hook/downloads)](https://packagist.org/packages/josantonius/Hook) [![Travis](https://travis-ci.org/Josantonius/PHP-Hook.svg)](https://travis-ci.org/Josantonius/PHP-Hook) [![PSR2](https://img.shields.io/badge/PSR-2-1abc9c.svg)](http://www.php-fig.org/psr/psr-2/) [![PSR4](https://img.shields.io/badge/PSR-4-9b59b6.svg)](http://www.php-fig.org/psr/psr-4/) [![CodeCov](https://codecov.io/gh/Josantonius/PHP-Hook/branch/master/graph/badge.svg)](https://codecov.io/gh/Josantonius/PHP-Hook)
 
 [Versión en español](README-ES.md)
 
@@ -8,13 +8,12 @@ Library for handling hooks.
 
 ---
 
-- [Installation](#installation)
 - [Requirements](#requirements)
-- [Quick Start and Examples](#quick-start-and-examples)
+- [Installation](#installation)
 - [Available Methods](#available-methods)
+- [Quick Start](#quick-start)
 - [Usage](#usage)
 - [Tests](#tests)
-- [Exception Handler](#exception-handler)
 - [TODO](#-todo)
 - [Contribute](#contribute)
 - [Repository](#repository)
@@ -23,153 +22,256 @@ Library for handling hooks.
 
 ---
 
-### Installation
+## Requirements
 
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+This library is supported by **PHP versions 5.6** or higher and is compatible with **HHVM versions 3.0** or higher.
 
-To install PHP Hook library, simply:
+## Installation
+
+The preferred way to install this extension is through [Composer](http://getcomposer.org/download/).
+
+To install **PHP Hook library**, simply:
 
     $ composer require Josantonius/Hook
 
-The previous command will only install the necessary files, if you prefer to download the entire source code (including tests, vendor folder, exceptions not used, docs...) you can use:
+The previous command will only install the necessary files, if you prefer to **download the entire source code** you can use:
 
     $ composer require Josantonius/Hook --prefer-source
 
-Or you can also clone the complete repository with Git:
+You can also **clone the complete repository** with Git:
 
-	$ git clone https://github.com/Josantonius/PHP-Hook.git
-	
-### Requirements
+  $ git clone https://github.com/Josantonius/PHP-Hook.git
 
-This library is supported by PHP versions 5.6 or higher and is compatible with HHVM versions 3.0 or higher.
+Or **install it manually**:
 
-To use this library in HHVM (HipHop Virtual Machine) you will have to activate the scalar types. Add the following line "hhvm.php7.scalar_types = true" in your "/etc/hhvm/php.ini".
+[Download Hook.php](https://raw.githubusercontent.com/Josantonius/PHP-Hook/master/src/Hook.php):
 
-### Quick Start and Examples
+    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Hook/master/src/Hook.php
 
-To use this class, simply:
-
-```php
-require __DIR__ . '/vendor/autoload.php';
-
-use Josantonius\Hook\Hook;
-```
-
-### Available Methods
+## Available Methods
 
 Available methods in this library:
 
-**getInstance()**
+### - Get Hook instance:
+
 ```php
 Hook::getInstance();
 ```
 
-**setSingletonName()**
+| Attribute | Description | Type | Required | Default
+| --- | --- | --- | --- | --- |
+| $id | Unique ID for multiple instances. | string | No | '0' |
+
+**# Return** (object) → Hook instance
+
+### - Set method name for use singleton pattern:
+
 ```php
 Hook::setSingletonName($method);
 ```
 
-| Atttribute | Description | Type | Required | Default
+| Attribute | Description | Type | Required | Default
 | --- | --- | --- | --- | --- |
-| $method | Set method name for use singleton pattern | string | Yes | |
+| $method | Set method name for use singleton pattern. | callable | No | |
 
-**addAction()**
+**# Return** (void)
+
+### - Attach custom function to action hook:
+
 ```php
 Hook::addAction($tag, $function, $priority, $args);
 ```
 
-| Atttribute | Description | Type | Required | Default
+| Attribute | Description | Type | Required | Default
 | --- | --- | --- | --- | --- |
-| $tag | Action hook name | string | Yes | |
-| $function | Function to attach to action hook | callable | Yes | |
-| $priority | Order in which the action is executed | int | No | 8 |
-| $args | Number of arguments accepted | int | No | 0 |
+| $tag | Action hook name. | string | Yes | |
+| $function | Function to attach to action hook. | callable | Yes | |
+| $priority | Order in which the action is executed. | int | No | 8 |
+| $args | Number of arguments accepted. | int | No | 0 |
 
-**addActions()**
+**# Return** (boolean)
+
+### - Add actions hooks from array:
+
 ```php
 Hook::addActions($actions);
 ```
 
-| Atttribute | Description | Type | Required | Default
+| Attribute | Description | Type | Required | Default
 | --- | --- | --- | --- | --- |
 | $actions | Actions hooks | array | Yes | |
 
-**doAction()**
+**# Return** (boolean)
+
+### - Run all hooks attached to the hook:
+
+By default it will look for getInstance method to use singleton pattern and create a single instance of the class. If it does not exist it will create a new object.
+
 ```php
 Hook::doAction($tag, $args, $remove);
 ```
 
-| Atttribute | Description | Type | Required | Default
+| Attribute | Description | Type | Required | Default
 | --- | --- | --- | --- | --- |
 | $tag | Action hook name | string | Yes | |
 | $args | Optional arguments | mixed | No | array() |
 | $remove | Delete hook after executing actions | boolean | No | true |
 
-**current()**
+**# Return** (mixed|false) → output of the last action or false 
+
+### - Returns the current action hook:
+
 ```php
 Hook::current();
 ```
 
-**isAction()**
+**# Return** (string|false) → current action hook
+
+### - Check if there is a certain action hook:
+
 ```php
 Hook::isAction($tag);
 ```
 
-| Atttribute | Description | Type | Required | Default
+| Attribute | Description | Type | Required | Default
 | --- | --- | --- | --- | --- |
 | $tag | Action hook name | string | Yes | |
 
-### Usage
+**# Return** (boolean)
 
-Example of use for this library:
+## Quick Start
+
+To use this library with **Composer**:
 
 ```php
-<?php
 require __DIR__ . '/vendor/autoload.php';
 
 use Josantonius\Hook\Hook;
+```
 
-/* Add actions */
+Or If you installed it **manually**, use it:
 
-Hook::addAction('css', ['Namespace\Class\Example', 'css'], 2, 0);
+```php
+require_once __DIR__ . '/Hook.php';
 
-$hooks = [
-    ['meta',       ['Namespace\Class\Example', 'meta'],      1, 0],
-    ['js',         ['Namespace\Class\Example', 'js'],        3, 0],
-    ['after-body', ['Namespace\Class\Example', 'afterBody'], 4, 0],
-    ['footer',     ['Namespace\Class\Example', 'footer'],    5, 0],
-];
+use Josantonius\Hook\Hook;
+```
 
-Hook::addActions($hooks);
+## Usage
 
-/* Run actions */
+[Example](tests/Example.php) of use for this library:
 
-Hook::doAction('meta');
+### - Add action hook:
+
+```php
+Hook::addAction('css', ['Josantonius\Hook\Test\Example', 'css']);
+```
+
+### - Add action hook with priority:
+
+```php
+Hook::addAction('js', ['Josantonius\Hook\Test\Example', 'js'], 1);
+```
+
+### - Add action hook with priority and arguments number:
+
+```php
+$instance = new Example;
+
+Hook::addAction('meta', [$instance, 'meta'], 2, 1);
+```
+
+### - Add action hook and set singleton method:
+
+```php
+Hook::setSingletonName('singletonMethod');
+
+$instance = call_user_func(
+    'Josantonius\Hook\Test\Example::singletonMethod'
+);
+
+Hook::addAction('article', [$instance, 'article'], 3, 0);
+```
+
+### - Add multiple action hooks:
+
+```php
+$instance = new Example;
+        
+Hook::addActions([
+    ['after-body', [$instance, 'afterBody'], 4, 0],
+    ['footer', [$instance, 'footer'], 5, 0],
+]);
+```
+
+### - Add multiple action hooks and set singleton method:
+
+```php
+Hook::setSingletonName('singletonMethod');
+
+$instance = call_user_func(
+    'Josantonius\Hook\Test\Example::singletonMethod'
+);
+
+Hook::addActions([
+    ['slide', [$instance, 'slide'], 6, 0],
+    ['form', [$instance, 'form'], 7, 2],
+]);
+```
+
+### - Check if is action:
+
+```php
+Hook::setSingletonName('singletonMethod');
+
+Hook::isAction('meta');
+```
+
+### - Execute action hooks:
+
+```php
 Hook::doAction('css');
 Hook::doAction('js');
 Hook::doAction('after-body');
+Hook::doAction('article');
 Hook::doAction('footer');
 ```
 
-### Tests 
+### - Execute action hook with arguments:
 
-To run [tests](tests/Hook/Test) simply:
+```php
+Hook::doAction('meta', 'The title');
+Hook::doAction('form', ['input', 'select']);
+```
+
+## Tests 
+
+To run [tests](tests) you just need [Composer](http://getcomposer.org/download/) and to execute the following:
 
     $ git clone https://github.com/Josantonius/PHP-Hook.git
     
     $ cd PHP-Hook
 
-    $ phpunit
+    $ composer install
 
-### ☑ TODO
+Run unit tests with [PHPUnit](https://phpunit.de/):
+
+    $ composer phpunit
+
+Run [PSR2](http://www.php-fig.org/psr/psr-2/) code standard tests with [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer):
+
+    $ composer phpcs
+
+Run all previous tests:
+
+    $ composer tests
+
+## ☑ TODO
 
 - [x] Create tests
 - [ ] Improve documentation
 
-### Exception Handler
-
-This library uses [exception handler](src/Exception) that you can customize.
-### Contribute
+## Contribute
 1. Check for open issues or open a new issue to start a discussion around a bug or feature.
 1. Fork the repository on GitHub to start making your changes.
 1. Write one or more tests for the new feature or that expose the bug.
@@ -178,15 +280,15 @@ This library uses [exception handler](src/Exception) that you can customize.
 
 This is intended for large and long-lived objects.
 
-### Repository
+## Repository
 
 All files in this repository were created and uploaded automatically with [Reposgit Creator](https://github.com/Josantonius/BASH-Reposgit).
 
-### License
+## License
 
 This project is licensed under **MIT license**. See the [LICENSE](LICENSE) file for more info.
 
-### Copyright
+## Copyright
 
 2017 Josantonius, [josantonius.com](https://josantonius.com/)
 
