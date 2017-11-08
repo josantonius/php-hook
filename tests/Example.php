@@ -8,7 +8,6 @@
  * @link      https://github.com/Josantonius/PHP-Hook
  * @since     1.0.8
  */
-
 namespace Josantonius\Hook;
 
 /**
@@ -22,15 +21,11 @@ class Example
      * Class instance.
      *
      * @since 1.0.8
-     *
-     * @return void
      */
     private static $singleton;
 
     /**
      * @since 1.0.8
-     *
-     * @return void
      */
     public static function getInstance()
     {
@@ -39,8 +34,6 @@ class Example
 
     /**
      * @since 1.0.8
-     *
-     * @return void
      */
     public static function singletonMethod()
     {
@@ -49,8 +42,6 @@ class Example
 
     /**
      * @since 1.0.8
-     *
-     * @return void
      */
     public function meta($title)
     {
@@ -59,8 +50,6 @@ class Example
 
     /**
      * @since 1.0.8
-     *
-     * @return void
      */
     public function css()
     {
@@ -69,8 +58,6 @@ class Example
 
     /**
      * @since 1.0.8
-     *
-     * @return void
      */
     public function js()
     {
@@ -79,8 +66,6 @@ class Example
 
     /**
      * @since 1.0.8
-     *
-     * @return void
      */
     public function afterBody()
     {
@@ -89,8 +74,6 @@ class Example
 
     /**
      * @since 1.0.8
-     *
-     * @return void
      */
     public function slide()
     {
@@ -99,8 +82,6 @@ class Example
 
     /**
      * @since 1.0.8
-     *
-     * @return void
      */
     public function form($input, $select)
     {
@@ -109,8 +90,6 @@ class Example
 
     /**
      * @since 1.0.8
-     *
-     * @return void
      */
     public function article()
     {
@@ -119,8 +98,6 @@ class Example
 
     /**
      * @since 1.0.8
-     *
-     * @return void
      */
     public function footer()
     {

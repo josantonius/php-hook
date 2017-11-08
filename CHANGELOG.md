@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.0.9 - 2017-11-08
+
+* Implemented `PHP Mess Detector` to detect inconsistencies in code styles.
+
+* Implemented `PHP Code Beautifier and Fixer` to fixing errors automatically.
+
+* Implemented `PHP Coding Standards Fixer` to organize PHP code automatically according to PSR standards.
+
 ## 1.0.8 - 2017-10-30
 
 * Implemented `PSR-4 autoloader standard` from all library files.

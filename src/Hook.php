@@ -8,7 +8,6 @@
  * @link      https://github.com/Josantonius/PHP-Hook
  * @since     1.0.0
  */
-
 namespace Josantonius\Hook;
 
 /**
@@ -87,6 +86,7 @@ class Hook
         if (isset(self::$instances[self::$id])) {
             return self::$instances[self::$id];
         }
+
         return self::$instances[self::$id] = new self;
     }
 
@@ -100,16 +100,17 @@ class Hook
      * @param int      $priority → order in which the action is executed
      * @param int      $args     → number of arguments accepted
      *
-     * @return boolean
+     * @return bool
      */
     public static function addAction($tag, $func, $priority = 8, $args = 0)
     {
         $that = self::getInstance(self::$id);
 
         $that->callbacks[$tag][$priority][] = [
-            'function'  => $func,
+            'function' => $func,
             'arguments' => $args,
         ];
+
         return true;
     }
 
@@ -120,13 +121,14 @@ class Hook
      *
      * @param array $actions
      *
-     * @return boolean
+     * @return bool
      */
     public static function addActions($actions)
     {
         foreach ($actions as $arguments) {
             call_user_func_array([__CLASS__, 'addAction'], $arguments);
         }
+
         return true;
     }
 
@@ -141,9 +143,9 @@ class Hook
      *
      * @since 1.0.3
      *
-     * @param  string  $tag    → action hook name
-     * @param  mixed   $args   → optional arguments
-     * @param  boolean $remove → delete hook after executing actions
+     * @param string $tag    → action hook name
+     * @param mixed  $args   → optional arguments
+     * @param bool   $remove → delete hook after executing actions
      *
      * @return returns the output of the last action or false
      */
@@ -155,7 +157,7 @@ class Hook
 
         $that->actions['count']++;
 
-        if (!array_key_exists($tag, $that->actions)) {
+        if (! array_key_exists($tag, $that->actions)) {
             $that->actions[$tag] = 0;
         }
 
@@ -180,8 +182,6 @@ class Hook
      * @since 1.0.0
      *
      * @param string $method → singleton method name
-     *
-     * @return void
      */
     public static function setSingletonName($method)
     {
@@ -209,13 +209,13 @@ class Hook
      *
      * @param string $tag → action hook name
      *
-     * @return boolean
+     * @return bool
      */
     public static function isAction($tag)
     {
         $that = self::getInstance(self::$id);
 
-        return (isset($that->callbacks[$tag]));
+        return isset($that->callbacks[$tag]);
     }
 
     /**
@@ -223,22 +223,22 @@ class Hook
      *
      * @since 1.0.3
      *
-     * @param string  $action → action hook
-     * @param int     $args   → arguments
+     * @param string $action → action hook
+     * @param int    $args   → arguments
      *
      * @return callable|false → returns the calling function
      */
     private function runAction($action, $args)
     {
-        $function   = $action['function'];
+        $function = $action['function'];
         $argsNumber = $action['arguments'];
 
-        $class  = (isset($function[0])) ? $function[0] : false;
+        $class = (isset($function[0])) ? $function[0] : false;
         $method = (isset($function[1])) ? $function[1] : false;
 
         $args = $this->getArguments($argsNumber, $args);
 
-        if (!($class && $method) && function_exists($function)) {
+        if (! ($class && $method) && function_exists($function)) {
             return call_user_func($function, $args);
         } elseif ($obj = call_user_func([$class, $this->singleton])) {
             if ($obj !== false) {
@@ -246,6 +246,7 @@ class Hook
             }
         } elseif (class_exists($class)) {
             $instance = new $class;
+
             return call_user_func_array([$instance, $method], $args);
         }
     }
@@ -255,8 +256,8 @@ class Hook
      *
      * @since 1.0.3
      *
-     * @param string  $tag    → action hook name
-     * @param boolean $remove → delete hook after executing actions
+     * @param string $tag    → action hook name
+     * @param bool   $remove → delete hook after executing actions
      *
      * @return object|false → returns the calling function
      */
@@ -268,6 +269,7 @@ class Hook
                 unset($this->callbacks[$tag]);
             }
         }
+
         return (isset($actions)) ? $actions : [];
     }
 
@@ -294,8 +296,10 @@ class Hook
                 $args[] = $arguments[$i];
                 continue;
             }
+
             return $args;
         }
+
         return [];
     }
 }
