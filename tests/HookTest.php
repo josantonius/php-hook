@@ -22,7 +22,7 @@ final class HookTest extends TestCase
     /**
      * Hook instance.
      *
-     * @since 1.1.5
+     * @since 1.0.9
      *
      * @var object
      */
@@ -31,7 +31,7 @@ final class HookTest extends TestCase
     /**
      * Set up.
      *
-     * @since 1.1.5
+     * @since 1.0.9
      */
     public function setUp()
     {
@@ -43,7 +43,7 @@ final class HookTest extends TestCase
     /**
      * Check if it is an instance of Hook.
      *
-     * @since 1.1.5
+     * @since 1.0.9
      */
     public function testIsInstanceOfHook()
     {
