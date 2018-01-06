@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.1.0 - 2018-01-06
+
+* The tests were fixed.
+
+* Changes in documentation.
+
 ## 1.0.9 - 2017-11-08
 
 * Implemented `PHP Mess Detector` to detect inconsistencies in code styles.
@@ -86,7 +92,7 @@
 
 ## 1.0.5 - 2017-06-24
 
-*The class was improved to work with different instances and some static methods were changed to dynamic ones.
+* The class was improved to work with different instances and some static methods were changed to dynamic ones.
 
 ## 1.0.4 - 2017-06-02
 

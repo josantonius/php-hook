@@ -3,7 +3,7 @@
  * Library for handling hooks.
  *
  * @author    Josantonius <hello@josantonius.com>
- * @copyright 2017 (c) Josantonius - PHP-Hook
+ * @copyright 2017 - 2018 (c) Josantonius - PHP-Hook
  * @license   https://opensource.org/licenses/MIT - The MIT License (MIT)
  * @link      https://github.com/Josantonius/PHP-Hook
  * @since     1.0.6
@@ -14,8 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests class for Hook library.
- *
- * @since 1.0.6
  */
 final class HookTest extends TestCase
 {
@@ -35,6 +33,8 @@ final class HookTest extends TestCase
      */
     public function setUp()
     {
+        $hook = $this->Hook;
+
         parent::setUp();
 
         $this->Hook = new Hook;
@@ -47,101 +47,102 @@ final class HookTest extends TestCase
      */
     public function testIsInstanceOfHook()
     {
-        $actual = $this->Hook;
-        $this->assertInstanceOf('Josantonius\Hook\Hook', $actual);
+        $hook = $this->Hook;
+
+        $this->assertInstanceOf('Josantonius\Hook\Hook', $this->Hook);
     }
 
     /**
      * Add action hook.
-     *
-     * @since 1.0.6
      */
     public function testAddAction()
     {
+        $hook = $this->Hook;
+
         $this->assertTrue(
-            $this->Hook->addAction('css', ['Josantonius\Hook\Example', 'css'])
+            $hook::addAction('css', ['Josantonius\Hook\Example', 'css'])
         );
     }
 
     /**
      * Add action hook with priority.
-     *
-     * @since 1.0.6
      */
     public function testAddActionWithPriority()
     {
+        $hook = $this->Hook;
+
         $this->assertTrue(
-            $this->Hook->addAction('js', ['Josantonius\Hook\Example', 'js'], 1)
+            $hook::addAction('js', ['Josantonius\Hook\Example', 'js'], 1)
         );
     }
 
     /**
      * Add action hook with priority and arguments number.
-     *
-     * @since 1.0.6
      */
     public function testAddActionWithPriorityAndArguments()
     {
+        $hook = $this->Hook;
+
         $instance = new Example;
 
         $this->assertTrue(
-            $this->Hook->addAction('meta', [$instance, 'meta'], 2, 1)
+            $hook::addAction('meta', [$instance, 'meta'], 2, 1)
         );
     }
 
     /**
      * Add action hook and set singleton method.
-     *
-     * @since 1.0.6
      */
     public function testAddActionWithCustomSingletonMethod()
     {
-        $this->Hook->setSingletonName('singletonMethod');
+        $hook = $this->Hook;
+
+         $hook::setSingletonName('singletonMethod');
 
         $instance = call_user_func(
             'Josantonius\Hook\Example::singletonMethod'
         );
 
         $this->assertTrue(
-            $this->Hook->addAction('article', [$instance, 'article'], 3, 0)
+            $hook::addAction('article', [$instance, 'article'], 3, 0)
         );
     }
 
     /**
      * Add multiple action hooks.
-     *
-     * @since 1.0.6
      */
     public function testAddMultipleActions()
     {
+        $hook = $this->Hook;
+
         $instance = new Example;
 
         $this->assertTrue(
-            $this->Hook->addActions([
+            $hook::addActions([
                 ['after-body', [$instance, 'afterBody'], 4, 0],
                 ['footer', [$instance, 'footer'], 5, 0],
-            ])
+             ])
         );
     }
 
     /**
      * Add multiple action hooks and set singleton method.
-     *
-     * @since 1.0.6
      */
     public function testAddMultipleActionsWithCustomSingletonMethod()
     {
-        $this->Hook->setSingletonName('singletonMethod');
+        $hook = $this->Hook;
+
+         $hook::setSingletonName('singletonMethod');
 
         $instance = call_user_func(
             'Josantonius\Hook\Example::singletonMethod'
         );
 
         $this->assertTrue(
-            $this->Hook->addActions([
+            $hook::addActions([
                 ['slide', [$instance, 'slide'], 6, 0],
                 ['form', [$instance, 'form'], 7, 2],
-            ])
+             ])
         );
     }
 
@@ -152,12 +153,14 @@ final class HookTest extends TestCase
      */
     public function testIsAction()
     {
+        $hook = $this->Hook;
+
         $this->assertTrue(
-            $this->Hook->isAction('meta')
+            $hook::isAction('meta')
         );
 
         $this->assertTrue(
-            $this->Hook->isAction('form')
+            $hook::isAction('form')
         );
     }
 
@@ -168,50 +171,52 @@ final class HookTest extends TestCase
      */
     public function testIsNotAction()
     {
+        $hook = $this->Hook;
+
         $this->assertFalse(
-            $this->Hook->isAction('unknown')
+            $hook::isAction('unknown')
         );
     }
 
     /**
      * Execute action hooks.
-     *
-     * @since 1.0.6
      */
     public function testDoActions()
     {
-        $this->assertContains('css-hook', $this->Hook->doAction('css'));
-        $this->assertContains('js-hook', $this->Hook->doAction('js'));
-        $this->assertContains('after-hook', $this->Hook->doAction('after-body'));
-        $this->assertContains('article-hook', $this->Hook->doAction('article'));
-        $this->assertContains('footer-hook', $this->Hook->doAction('footer'));
+        $hook = $this->Hook;
+
+        $this->assertContains('css-hook', $hook::doAction('css'));
+        $this->assertContains('js-hook', $hook::doAction('js'));
+        $this->assertContains('after-hook', $hook::doAction('after-body'));
+        $this->assertContains('article-hook', $hook::doAction('article'));
+        $this->assertContains('footer-hook', $hook::doAction('footer'));
     }
 
     /**
      * Execute action hooks and get current hook.
-     *
-     * @since 1.0.6
      */
     public function testDoActionAndGetCurrentHook()
     {
-        $this->assertContains('slide', $this->Hook->doAction('slide'));
+        $hook = $this->Hook;
+
+        $this->assertContains('slide', $hook::doAction('slide'));
     }
 
     /**
      * Execute action hook with arguments.
-     *
-     * @since 1.0.6
      */
     public function testDoActionsWithArguments()
     {
+        $hook = $this->Hook;
+
         $this->assertContains(
             'meta-hook',
-            $this->Hook->doAction('meta', 'The title')
+            $hook::doAction('meta', 'The title')
         );
 
         $this->assertContains(
             'form-hook',
-            $this->Hook->doAction('form', ['input', 'select'])
+            $hook::doAction('form', ['input', 'select'])
         );
     }
 }
