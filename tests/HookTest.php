@@ -33,8 +33,6 @@ final class HookTest extends TestCase
      */
     public function setUp()
     {
-        $hook = $this->Hook;
-
         parent::setUp();
 
         $this->Hook = new Hook;
