@@ -45,8 +45,6 @@ final class HookTest extends TestCase
      */
     public function testIsInstanceOfHook()
     {
-        $hook = $this->Hook;
-
         $this->assertInstanceOf('Josantonius\Hook\Hook', $this->Hook);
     }
 
