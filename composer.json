@@ -1,41 +1,36 @@
 {
-    "name":        "josantonius/hook",
-    "type":        "library",
+    "name": "josantonius/hook",
     "description": "Library for handling hooks.",
-    "keywords": [
-        "Hook",
-        "Actions",
-        "Action Hooks",
-        "HHVM",
-        "PHP"
-    ],
     "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "hook",
+        "actions",
+        "action-hooks",
+        "php"
+    ],
     "authors": [
         {
-            "name":     "Josantonius",
-            "email":    "hello@josantonius.com",
-            "homepage": "https://josantonius.com",
-            "role":     "Developer"
+            "name": "Josantonius",
+            "email": "hello@josantonius.dev",
+            "homepage": "https://josantonius.dev",
+            "role": "Developer"
         }
     ],
     "support": {
         "issues": "https://github.com/josantonius/php-hook/issues",
-        "forum":  "http://stackoverflow.com/tags/josantonius/php-hook",
-        "source": "https://github.com/josantonius/php-hook"
+        "source": "https://github.com/josantonius/php-hook",
+        "discussions": "https://github.com/josantonius/php-hook/discussions"
     },
-    "config": {
-        "preferred-install": "dist"
-    },
-    "minimum-stability": "stable",
     "require": {
-        "php": "^5.6 || ^7.0"
+        "php": "^8.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7 || ^6.0",
-        "squizlabs/php_codesniffer": "^3.0",
-        "friendsofphp/php-cs-fixer": "^2.3 || ^2.8",
-        "phpmd/phpmd": "^2.6"
+        "phpmd/phpmd": "^2.6",
+        "phpunit/phpunit": "^9.5",
+        "squizlabs/php_codesniffer": "^3.7"
     },
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Josantonius\\Hook\\": "src/"
@@ -43,8 +38,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Josantonius\\Hook\\": "tests/"
+            "Josantonius\\Hook\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "preferred-install": "dist"
     },
     "extra": {
         "branch-alias": {
@@ -52,13 +50,14 @@
         }
     },
     "scripts": {
-        "phpunit": "vendor/bin/phpunit --colors=always;",
-        "phpcs": "vendor/bin/phpcs --standard=phpcs.xml $(find . -name '*.php');",
-        "phpmd": "vendor/bin/phpmd src,tests text ./phpmd.xml",
+        "coverage": "vendor/bin/phpunit --coverage-clover=coverage.xml",
         "fix": [
-            "vendor/bin/php-cs-fixer fix -v",
             "vendor/bin/phpcbf src tests"
         ],
+        "htmlCoverage": "vendor/bin/phpunit --coverage-html coverage",
+        "phpcs": "vendor/bin/phpcs --standard=phpcs.xml $(find . -name '*.php');",
+        "phpmd": "vendor/bin/phpmd src,tests text ./phpmd.xml",
+        "phpunit": "vendor/bin/phpunit --colors=always;",
         "tests": [
             "clear",
             "@phpmd",
