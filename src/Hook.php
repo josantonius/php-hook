@@ -1,305 +1,154 @@
 <?php
-/**
- * Library for handling hooks.
- *
- * @author    Josantonius <hello@josantonius.com>
- * @copyright 2017 (c) Josantonius - PHP-Hook
- * @license   https://opensource.org/licenses/MIT - The MIT License (MIT)
- * @link      https://github.com/Josantonius/PHP-Hook
- * @since     1.0.0
- */
+
+declare(strict_types=1);
+
+/*
+* This file is part of https://github.com/josantonius/php-hook repository.
+*
+* (c) Josantonius <hello@josantonius.dev>
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*/
+
 namespace Josantonius\Hook;
+
+use Josantonius\Hook\Exceptions\HookException;
 
 /**
  * Hook handler.
- *
- * @since 1.0.0
  */
 class Hook
 {
-    /**
-     * Instance id.
-     *
-     * @since 1.0.5
-     *
-     * @var int
-     */
-    protected static $id = '0';
+    private static array $hooks = [];
 
     /**
-     * Callbacks.
-     *
-     * @since 1.0.3
-     *
-     * @var array
+     * Register new hook.
      */
-    protected $callbacks = [];
-
-    /**
-     * Number of actions executed.
-     *
-     * @since 1.0.3
-     *
-     * @var array
-     */
-    protected $actions = ['count' => 0];
-
-    /**
-     * Current action hook.
-     *
-     * @since 1.0.3
-     *
-     * @var string|false
-     */
-    protected static $current = false;
-
-    /**
-     * Method to use the singleton pattern and just create an instance.
-     *
-     * @since 1.0.0
-     *
-     * @var string
-     */
-    protected $singleton = 'getInstance';
-
-    /**
-     * Instances.
-     *
-     * @since 1.0.0
-     *
-     * @var array
-     */
-    private static $instances = [];
-
-    /**
-     * Get instance.
-     *
-     * @since 1.0.0
-     *
-     * @param int $id
-     *
-     * @return object → instance
-     */
-    public static function getInstance($id = '0')
+    public function __construct(private string $name)
     {
-        self::$id = $id;
-        if (isset(self::$instances[self::$id])) {
-            return self::$instances[self::$id];
+        if (!isset(self::$hooks[$name])) {
+            self::$hooks[$name] = [
+                'actions' => [],
+                'done' => false,
+            ];
         }
-
-        return self::$instances[self::$id] = new self;
     }
 
     /**
-     * Attach custom function to action hook.
+     * Add action on the hook.
      *
-     * @since 1.0.3
-     *
-     * @param string   $tag      → action hook name
-     * @param callable $func     → function to attach to action hook
-     * @param int      $priority → order in which the action is executed
-     * @param int      $args     → number of arguments accepted
-     *
-     * @return bool
+     * Action will be maintained after performing actions and will be available if are done again.
      */
-    public static function addAction($tag, $func, $priority = 8, $args = 0)
+    public function addAction(callable $callback, int $priority = Priority::NORMAL): Action
     {
-        $that = self::getInstance(self::$id);
-
-        $that->callbacks[$tag][$priority][] = [
-            'function' => $func,
-            'arguments' => $args,
-        ];
-
-        return true;
+        return $this->setAction($callback, $priority, once: false);
     }
 
     /**
-     * Add actions hooks from array.
+     * Add action once on the hook.
      *
-     * @since 1.0.3
-     *
-     * @param array $actions
-     *
-     * @return bool
+     * Action will only be done once and will be deleted after it is done.
      */
-    public static function addActions($actions)
+    public function addActionOnce(callable $callback, int $priority = Priority::NORMAL): Action
     {
-        foreach ($actions as $arguments) {
-            call_user_func_array([__CLASS__, 'addAction'], $arguments);
-        }
-
-        return true;
+        return $this->setAction($callback, $priority, once: true);
     }
 
     /**
-     * Run all hooks attached to the hook.
+     * Run the added actions for the hook.
      *
-     * By default it will look for getInstance method to use singleton
-     * pattern and create a single instance of the class. If it does not
-     * exist it will create a new object.
+     * @throws HookException if the actions have already been done.
+     * @throws HookException if no actions were added for the hook.
      *
-     * @see setSingletonName() for change the method name.
-     *
-     * @since 1.0.3
-     *
-     * @param string $tag    → action hook name
-     * @param mixed  $args   → optional arguments
-     * @param bool   $remove → delete hook after executing actions
-     *
-     * @return returns the output of the last action or false
+     * @return Action[] Actions done.
      */
-    public static function doAction($tag, $args = [], $remove = true)
+    public function doActions(mixed ...$arguments): array
     {
-        $that = self::getInstance(self::$id);
-
-        self::$current = $tag;
-
-        $that->actions['count']++;
-
-        if (! array_key_exists($tag, $that->actions)) {
-            $that->actions[$tag] = 0;
+        if (!$this->hasActions()) {
+            $this->hasDoneActions()
+                ? (throw new HookException("Actions for '$this->name' hook have already been done"))
+                : (throw new HookException("No actions were added for '$this->name' hook"));
         }
 
-        $that->actions[$tag]++;
-        $actions = $that->getActions($tag, $remove);
-        asort($actions);
+        $this->sortActionsByPriority();
 
-        foreach ($actions as $priority) {
-            foreach ($priority as $action) {
-                $action = $that->runAction($action, $args);
+        $actions = $this->getActions();
+
+        foreach ($actions as $key => $action) {
+            $action->runCallback(...$arguments);
+            if ($action->isOnce()) {
+                unset($this->getActions()[$key]);
             }
+            self::$hooks[$this->name]['done'] = true;
         }
 
-        self::$current = false;
-
-        return (isset($action)) ? $action : false;
+        return $actions;
     }
 
     /**
-     * Set method name for use singleton pattern.
-     *
-     * @since 1.0.0
-     *
-     * @param string $method → singleton method name
+     * Gets hook name.
      */
-    public static function setSingletonName($method)
+    public function getName(): string
     {
-        $that = self::getInstance(self::$id);
-
-        $that->singleton = $method;
+        return $this->name;
     }
 
     /**
-     * Returns the current action hook.
-     *
-     * @since 1.0.3
-     *
-     * @return string|false → current action hook
+     * If there are actions to be done.
      */
-    public static function current()
+    public function hasActions(): bool
     {
-        return self::$current;
+        return count($this->getActions()) > 0;
     }
 
     /**
-     * Check if there is a certain action hook.
-     *
-     * @since 1.0.7
-     *
-     * @param string $tag → action hook name
-     *
-     * @return bool
+     * If the actions have already been done at least once.
      */
-    public static function isAction($tag)
+    public function hasDoneActions(): bool
     {
-        $that = self::getInstance(self::$id);
-
-        return isset($that->callbacks[$tag]);
+        return self::$hooks[$this->name]['done'];
     }
 
     /**
-     * Run action hook.
-     *
-     * @since 1.0.3
-     *
-     * @param string $action → action hook
-     * @param int    $args   → arguments
-     *
-     * @return callable|false → returns the calling function
+     * If there are actions to be done.
      */
-    private function runAction($action, $args)
+    public function hasUndoneActions(): bool
     {
-        $function = $action['function'];
-        $argsNumber = $action['arguments'];
+        $actions = array_filter($this->getActions(), function (Action $action) {
+            return !$action->wasDone();
+        });
 
-        $class = (isset($function[0])) ? $function[0] : false;
-        $method = (isset($function[1])) ? $function[1] : false;
-
-        $args = $this->getArguments($argsNumber, $args);
-
-        if (! ($class && $method) && function_exists($function)) {
-            return call_user_func($function, $args);
-        } elseif ($obj = call_user_func([$class, $this->singleton])) {
-            if ($obj !== false) {
-                return call_user_func_array([$obj, $method], $args);
-            }
-        } elseif (class_exists($class)) {
-            $instance = new $class;
-
-            return call_user_func_array([$instance, $method], $args);
-        }
+        return count($actions) > 0;
     }
 
     /**
-     * Get actions for hook
+     * Get actions from the hook.
      *
-     * @since 1.0.3
-     *
-     * @param string $tag    → action hook name
-     * @param bool   $remove → delete hook after executing actions
-     *
-     * @return object|false → returns the calling function
+     * @return Action[]
      */
-    private function getActions($tag, $remove)
+    private function &getActions(): array
     {
-        if (isset($this->callbacks[$tag])) {
-            $actions = $this->callbacks[$tag];
-            if ($remove) {
-                unset($this->callbacks[$tag]);
-            }
-        }
-
-        return (isset($actions)) ? $actions : [];
+        return self::$hooks[$this->name]['actions'];
     }
 
     /**
-     * Get arguments for action.
-     *
-     * @since 1.0.3
-     *
-     * @param int   $argsNumber → arguments number
-     * @param mixed $arguments  → arguments
-     *
-     * @return array → arguments
+     * Register new action on the hook.
      */
-    private function getArguments($argsNumber, $arguments)
+    private function setAction(callable $callback, int $priority, bool $once): Action
     {
-        if ($argsNumber == 1 && is_string($arguments)) {
-            return [$arguments];
-        } elseif ($argsNumber === count($arguments)) {
-            return $arguments;
-        }
+        $action = new Action($callback, $priority, $once);
 
-        for ($i = 0; $i < $argsNumber; $i++) {
-            if (array_key_exists($i, $arguments)) {
-                $args[] = $arguments[$i];
-                continue;
-            }
+        $this->getActions()[] = $action;
 
-            return $args;
-        }
+        return $action;
+    }
 
-        return [];
+    /**
+     * Sort actions by priority level.
+     */
+    private function sortActionsByPriority(): void
+    {
+        usort($this->getActions(), fn ($a, $b) => $a->getPriority() - $b->getPriority());
     }
 }
