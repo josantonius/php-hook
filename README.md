@@ -1,30 +1,45 @@
 # PHP Hook library
 
-[![Latest Stable Version](https://poser.pugx.org/josantonius/Hook/v/stable)](https://packagist.org/packages/josantonius/Hook) [![Latest Unstable Version](https://poser.pugx.org/josantonius/Hook/v/unstable)](https://packagist.org/packages/josantonius/Hook) [![License](https://poser.pugx.org/josantonius/Hook/license)](LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/22a7928128324c3e8a7ca9ea4aa2abcb)](https://www.codacy.com/app/Josantonius/PHP-Hook?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Josantonius/PHP-Hook&amp;utm_campaign=Badge_Grade) [![Total Downloads](https://poser.pugx.org/josantonius/Hook/downloads)](https://packagist.org/packages/josantonius/Hook) [![Travis](https://travis-ci.org/Josantonius/PHP-Hook.svg)](https://travis-ci.org/Josantonius/PHP-Hook) [![PSR2](https://img.shields.io/badge/PSR-2-1abc9c.svg)](http://www.php-fig.org/psr/psr-2/) [![PSR4](https://img.shields.io/badge/PSR-4-9b59b6.svg)](http://www.php-fig.org/psr/psr-4/) [![CodeCov](https://codecov.io/gh/Josantonius/PHP-Hook/branch/master/graph/badge.svg)](https://codecov.io/gh/Josantonius/PHP-Hook)
+[![Latest Stable Version](https://poser.pugx.org/josantonius/hook/v/stable)](https://packagist.org/packages/josantonius/hook)
+[![License](https://poser.pugx.org/josantonius/hook/license)](LICENSE)
+[![Total Downloads](https://poser.pugx.org/josantonius/hook/downloads)](https://packagist.org/packages/josantonius/hook)
+[![CI](https://github.com/josantonius/php-hook/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/josantonius/php-hook/actions/workflows/ci.yml)
+[![CodeCov](https://codecov.io/gh/josantonius/php-hook/branch/master/graph/badge.svg)](https://codecov.io/gh/josantonius/php-hook)
+[![PSR1](https://img.shields.io/badge/PSR-1-f57046.svg)](https://www.php-fig.org/psr/psr-1/)
+[![PSR4](https://img.shields.io/badge/PSR-4-9b59b6.svg)](https://www.php-fig.org/psr/psr-4/)
+[![PSR12](https://img.shields.io/badge/PSR-12-1abc9c.svg)](https://www.php-fig.org/psr/psr-12/)
 
-[Versión en español](README-ES.md)
+**Translations**: [Español](.github/lang/es-ES/README.md)
 
-Library for handling hooks.
+Library for handling hooks in PHP.
+
+> Version 1.x is considered as deprecated and unsupported.
+> In this version (2.x) the library was completely restructured.
+> It is recommended to review the documentation for this version and make the necessary changes
+> before starting to use it, as it not be compatible with version 1.x.
 
 ---
 
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Available Methods](#available-methods)
+- [Available Classes and Instances](#available-classes-and-instances)
+  - [Hook Class](#hook-class)
+  - [Action Instance](#action-instance)
+  - [Priority Class](#priority-class)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
 - [Tests](#tests)
-- [TODO](#-todo)
-- [Contribute](#contribute)
-- [Repository](#repository)
+- [TODO](#todo)
+- [Changelog](#changelog)
+- [Contribution](#contribution)
+- [Sponsor](#Sponsor)
 - [License](#license)
-- [Copyright](#copyright)
 
 ---
 
 ## Requirements
 
-This library is supported by **PHP versions 5.6** or higher and is compatible with **HHVM versions 3.0** or higher.
+This library is compatible with the PHP versions: 8.1.
 
 ## Installation
 
@@ -32,112 +47,143 @@ The preferred way to install this extension is through [Composer](http://getcomp
 
 To install **PHP Hook library**, simply:
 
-    $ composer require Josantonius/Hook
+```console
+composer require josantonius/hook
+```
 
-The previous command will only install the necessary files, if you prefer to **download the entire source code** you can use:
+The previous command will only install the necessary files,
+if you prefer to **download the entire source code** you can use:
 
-    $ composer require Josantonius/Hook --prefer-source
+```console
+composer require josantonius/hook --prefer-source
+```
 
 You can also **clone the complete repository** with Git:
 
-  $ git clone https://github.com/Josantonius/PHP-Hook.git
-
-Or **install it manually**:
-
-[Download Hook.php](https://raw.githubusercontent.com/Josantonius/PHP-Hook/master/src/Hook.php):
-
-    $ wget https://raw.githubusercontent.com/Josantonius/PHP-Hook/master/src/Hook.php
-
-## Available Methods
-
-Available methods in this library:
-
-### - Get Hook instance:
-
-```php
-Hook::getInstance();
+```console
+git clone https://github.com/josantonius/php-hook.git
 ```
 
-| Attribute | Description | Type | Required | Default
-| --- | --- | --- | --- | --- |
-| $id | Unique ID for multiple instances. | string | No | '0' |
+## Available Classes and Instances
 
-**# Return** (object) → Hook instance
+### Hook Class
 
-### - Set method name for use singleton pattern:
+**Available methods:**
 
-```php
-Hook::setSingletonName($method);
-```
-
-| Attribute | Description | Type | Required | Default
-| --- | --- | --- | --- | --- |
-| $method | Set method name for use singleton pattern. | callable | No | |
-
-**# Return** (void)
-
-### - Attach custom function to action hook:
+#### Register new hook
 
 ```php
-Hook::addAction($tag, $function, $priority, $args);
+$hook = new Hook(string $name);
 ```
 
-| Attribute | Description | Type | Required | Default
-| --- | --- | --- | --- | --- |
-| $tag | Action hook name. | string | Yes | |
-| $function | Function to attach to action hook. | callable | Yes | |
-| $priority | Order in which the action is executed. | int | No | 8 |
-| $args | Number of arguments accepted. | int | No | 0 |
-
-**# Return** (boolean)
-
-### - Add actions hooks from array:
+#### Adds action on the hook
 
 ```php
-Hook::addActions($actions);
+$hook->addAction(callable $callback, int $priority = Priority::NORMAL): Action
 ```
 
-| Attribute | Description | Type | Required | Default
-| --- | --- | --- | --- | --- |
-| $actions | Actions hooks | array | Yes | |
+Action will be maintained after performing actions and will be available if are done again.
 
-**# Return** (boolean)
+**@see** <https://www.php.net/manual/en/functions.first_class_callable_syntax.php>
+for more information about first class callable syntax.
 
-### - Run all hooks attached to the hook:
+**@return** [Action](#action-instance) added.
 
-By default it will look for getInstance method to use singleton pattern and create a single instance of the class. If it does not exist it will create a new object.
+#### Adds action once on the hook
 
 ```php
-Hook::doAction($tag, $args, $remove);
+$hook->addActionOnce(callable $callback, int $priority = Priority::NORMAL): Action
 ```
 
-| Attribute | Description | Type | Required | Default
-| --- | --- | --- | --- | --- |
-| $tag | Action hook name | string | Yes | |
-| $args | Optional arguments | mixed | No | array() |
-| $remove | Delete hook after executing actions | boolean | No | true |
+Action will only be done once and will be deleted after it is done.
 
-**# Return** (mixed|false) → output of the last action or false 
+**It is recommended to use this method to release the actions from
+memory if the hook actions will only be done once.**
 
-### - Returns the current action hook:
+**@return** [Action](#action-instance) added.
+
+#### Runs the added actions for the hook
 
 ```php
-Hook::current();
+$hook->doActions(mixed ...$arguments): Action[]
 ```
 
-**# Return** (string|false) → current action hook
+**@throws** `HookException` if the actions have already been done.
 
-### - Check if there is a certain action hook:
+**@throws** `HookException` if no actions were added for the hook.
+
+**@return** `array` [Actions](#action-instance) done.
+
+#### Checks if the hook has actions
 
 ```php
-Hook::isAction($tag);
+$hook->hasActions(): bool
 ```
 
-| Attribute | Description | Type | Required | Default
-| --- | --- | --- | --- | --- |
-| $tag | Action hook name | string | Yes | |
+True if the hook has any action even if the action has been done before
+(recurring actions created with [addAction](#add-action-on-the-hook)).
 
-**# Return** (boolean)
+#### Checks if the hook has undone actions
+
+```php
+$hook->hasUndoneActions(): bool
+```
+
+True if the hook has some action left undone.
+
+#### Checks if the actions were done at least once
+
+```php
+$hook->hasDoneActions(): bool
+```
+
+If [doActions](#runs-the-added-actions-for-the-hook) was executed at least once.
+
+#### Gets hook name
+
+```php
+$hook->getName(): string
+```
+
+### Action Instance
+
+**Available methods:**
+
+#### Gets action priority
+
+```php
+$action->getPriority(): int
+```
+
+#### Gets action callback result
+
+```php
+$action->getResult(): mixed
+```
+
+#### Checks if the action is done once
+
+```php
+$action->isOnce(): bool
+```
+
+#### Checks if the action has already been done
+
+```php
+$action->wasDone(): bool
+```
+
+### Priority Class
+
+**Available constants:**
+
+```php
+Priority::HIGHEST; // 50
+Priority::HIGH;    // 100
+Priority::NORMAL;  // 150
+Priority::LOW;     // 200
+Priority::LOWEST;  // 250
+```
 
 ## Quick Start
 
@@ -145,165 +191,255 @@ To use this library with **Composer**:
 
 ```php
 require __DIR__ . '/vendor/autoload.php';
-
-use Josantonius\Hook\Hook;
 ```
 
-Or If you installed it **manually**, use it:
-
 ```php
-require_once __DIR__ . '/Hook.php';
-
 use Josantonius\Hook\Hook;
+use Josantonius\Hook\Priority;
 ```
 
 ## Usage
 
-[Example](tests/Example.php) of use for this library:
+Example of use for this library:
 
-### - Add action hook:
-
-```php
-Hook::addAction('css', ['Josantonius\Hook\Test\Example', 'css']);
-```
-
-### - Add action hook with priority:
+### - Register new hook
 
 ```php
-Hook::addAction('js', ['Josantonius\Hook\Test\Example', 'js'], 1);
+$hook = new Hook('foo');
 ```
 
-### - Add action hook with priority and arguments number:
+### - Adds actions on the hook
 
 ```php
-$instance = new Example;
+$hook->addAction(foo(...));
 
-Hook::addAction('meta', [$instance, 'meta'], 2, 1);
+$hook->addAction(Foo::bar(...), Priority::HIGH);
 ```
 
-### - Add action hook and set singleton method:
+### - Adds actions once on the hook
 
 ```php
-Hook::setSingletonName('singletonMethod');
+$hook->addActionOnce(bar(...));
 
-$instance = call_user_func(
-    'Josantonius\Hook\Test\Example::singletonMethod'
-);
-
-Hook::addAction('article', [$instance, 'article'], 3, 0);
+$hook->addActionOnce($foo->bar(...), Priority::LOWEST);
 ```
 
-### - Add multiple action hooks:
+### - Runs the added actions for the hook
+
+#### Do actions with the same priority
 
 ```php
-$instance = new Example;
-        
-Hook::addActions([
-    ['after-body', [$instance, 'afterBody'], 4, 0],
-    ['footer', [$instance, 'footer'], 5, 0],
-]);
+$hook->addAction(one(...));
+$hook->addAction(two(...));
+
+/**
+ * The actions will be executed according to their natural order:
+ * 
+ *  one(), two()...
+ */
+$hook->doActions();
 ```
 
-### - Add multiple action hooks and set singleton method:
+#### Do actions with different priority
 
 ```php
-Hook::setSingletonName('singletonMethod');
+$hook->addAction(a(...), priority::LOW);
+$hook->addAction(b(...), priority::NORMAL);
+$hook->addAction(c(...), priority::HIGHEST);
 
-$instance = call_user_func(
-    'Josantonius\Hook\Test\Example::singletonMethod'
-);
-
-Hook::addActions([
-    ['slide', [$instance, 'slide'], 6, 0],
-    ['form', [$instance, 'form'], 7, 2],
-]);
+/**
+ * Actions will be executed according to their priority:
+ * 
+ * c(), b(), a()...
+ */
+$hook->doActions();
 ```
 
-### - Check if is action:
+#### Do actions with arguments
 
 ```php
-Hook::setSingletonName('singletonMethod');
+$hook->addAction(foo(...));
 
-Hook::isAction('meta');
+$hook->doActions('foo', 'bar');
 ```
 
-### - Execute action hooks:
+#### Do actions recurrently
 
 ```php
-Hook::doAction('css');
-Hook::doAction('js');
-Hook::doAction('after-body');
-Hook::doAction('article');
-Hook::doAction('footer');
+$hook->addAction(one(...));
+$hook->addAction(tho(...));
+$hook->addActionOnce(three(...)); // Will be done only once
+
+$hook->doActions(); // one(), two(), three()
+
+$hook->doActions(); // one(), two()
 ```
 
-### - Execute action hook with arguments:
+#### Do actions only once
 
 ```php
-Hook::doAction('meta', 'The title');
-Hook::doAction('form', ['input', 'select']);
+$hook->addActionOnce(one(...));
+$hook->addActionOnce(tho(...));
+
+$hook->doActions();
+
+// $hook->doActions(); Throw exception since there are no actions to be done
 ```
 
-## Tests 
+### - Checks if the hook has actions
 
-To run [tests](tests) you just need [composer](http://getcomposer.org/download/) and to execute the following:
+```php
+$hook->addAction(foo());
 
-    $ git clone https://github.com/Josantonius/PHP-Hook.git
-    
-    $ cd PHP-Hook
+$hook->hasActions(); // true
 
-    $ composer install
+$hook->doActions();
+
+$hook->hasActions(); // True since the action is recurrent and remains stored
+```
+
+### - Checks if the hook has undone actions
+
+```php
+$hook->addAction(foo());
+
+$hook->hasUndoneActions(); // true
+
+$hook->doActions();
+
+$hook->hasUndoneActions(); // False since there are no undone actions
+```
+
+### - Checks if the actions were done at least once
+
+```php
+$hook->addAction(foo());
+
+$hook->hasDoneActions(); // false
+
+$hook->doActions();
+
+$hook->hasDoneActions(); // True since the actions were done
+```
+
+### - Gets hook name
+
+```php
+$name = $hook->getName();
+```
+
+#### - Gets action priority
+
+```php
+$action = $hook->addAction(foo());
+
+$action->getPriority();
+```
+
+#### - Gets action callback result
+
+```php
+$action = $hook->addAction(foo());
+
+$action->getResult();
+```
+
+#### - Checks if the action is done once
+
+```php
+$action = $hook->addAction(foo());
+
+$action->isOnce(); // false
+
+$action = $hook->addActionOnce(foo());
+
+$action->isOnce(); // true
+```
+
+#### - Checks if the action has already been done
+
+```php
+$action = $hook->addAction(foo());
+
+$action->wasDone(); // false
+
+$hook->doActions();
+
+$action->wasDone(); // true
+```
+
+## Tests
+
+To run [tests](tests) you just need [composer](http://getcomposer.org/download/)
+and to execute the following:
+
+```console
+git clone https://github.com/josantonius/php-hook.git
+```
+
+```console
+cd php-hook
+```
+
+```console
+composer install
+```
 
 Run unit tests with [PHPUnit](https://phpunit.de/):
 
-    $ composer phpunit
+```console
+composer phpunit
+```
 
-Run [PSR2](http://www.php-fig.org/psr/psr-2/) code standard tests with [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer):
+Run [PSR12](http://www.php-fig.org/psr/psr-12/) code standard tests with
+[PHPCS](https://github.com/squizlabs/PHP_CodeSniffer):
 
-    $ composer phpcs
+```console
+composer phpcs
+```
 
 Run [PHP Mess Detector](https://phpmd.org/) tests to detect inconsistencies in code style:
 
-    $ composer phpmd
+```console
+composer phpmd
+```
 
 Run all previous tests:
 
-    $ composer tests
+```console
+composer tests
+```
 
-## ☑ TODO
+## TODO
 
-- [ ] Add new feature.
-- [ ] Improve tests.
-- [ ] Improve documentation.
-- [ ] Refactor code for disabled code style rules. See [phpmd.xml](phpmd.xml) and [.php_cs.dist](.php_cs.dist).
+- [ ] Add new feature
+- [ ] Improve tests
+- [ ] Improve documentation
+- [ ] Improve English translation in the README file
+- [ ] Refactor code for disabled code style rules (see phpmd.xml and phpcs.xml)
+- [ ] Make Action->runCallback() accessible only to the Hook class
+- [ ] Add method to remove action?
+- [ ] Add option to add ID in actions?
 
-## Contribute
+## Changelog
 
-If you would like to help, please take a look at the list of
-[issues](https://github.com/Josantonius/PHP-Hook/issues) or the [To Do](#-todo) checklist.
+Detailed changes for each release are documented in the
+[release notes](https://github.com/josantonius/php-hook/releases).
 
-**Pull requests**
+## Contribution
 
-* [Fork and clone](https://help.github.com/articles/fork-a-repo).
-* Run the command `composer install` to install the dependencies.
-  This will also install the [dev dependencies](https://getcomposer.org/doc/03-cli.md#install).
-* Run the command `composer fix` to excute code standard fixers.
-* Run the [tests](#tests).
-* Create a **branch**, **commit**, **push** and send me a
-  [pull request](https://help.github.com/articles/using-pull-requests).
+Please make sure to read the [Contributing Guide](.github/CONTRIBUTING.md), before making a pull
+request, start a discussion or report a issue.
 
-## Repository
+Thanks to all [contributors](https://github.com/josantonius/php-hook/graphs/contributors)! :heart:
 
-The file structure from this repository was created with [PHP-Skeleton](https://github.com/Josantonius/PHP-Skeleton).
+## Sponsor
+
+If this project helps you to reduce your development time,
+[you can sponsor me](https://github.com/josantonius#sponsor) to support my open source work :blush:
 
 ## License
 
-This project is licensed under **MIT license**. See the [LICENSE](LICENSE) file for more info.
+This repository is licensed under the [MIT License](LICENSE).
 
-## Copyright
-
-2017 - 2018 Josantonius, [josantonius.com](https://josantonius.com/)
-
-If you find it useful, let me know :wink:
-
-You can contact me on [Twitter](https://twitter.com/Josantonius) or through my [email](mailto:hello@josantonius.com).
+Copyright © 2017-present, [Josantonius](https://github.com/josantonius#contact)
