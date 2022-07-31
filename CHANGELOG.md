@@ -1,6 +1,14 @@
 # CHANGELOG
 
-## [2.0.0](https://github.com/josantonius/php-hook/releases/tag/2.0.0) (2022-07-30)
+## [v2.0.1](https://github.com/josantonius/php-hook/releases/tag/v2.0.1) (2022-07-31)
+
+* Removed the warning about version 1.x in the `README.md` files.
+
+* Fixed blank line at the beginning of the file in `FUNDING.yml`.
+
+* Fixed CodeCov link in the `README.md` files.
+
+## [v2.0.0](https://github.com/josantonius/php-hook/releases/tag/v2.0.0) (2022-07-30)
 
 > Version 1.x is considered as deprecated and unsupported.
 > In this version (2.x) the library was completely restructured.

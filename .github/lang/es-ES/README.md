@@ -4,7 +4,7 @@
 [![License](https://poser.pugx.org/josantonius/hook/license)](LICENSE)
 [![Total Downloads](https://poser.pugx.org/josantonius/hook/downloads)](https://packagist.org/packages/josantonius/hook)
 [![CI](https://github.com/josantonius/php-hook/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/josantonius/php-hook/actions/workflows/ci.yml)
-[![CodeCov](https://codecov.io/gh/josantonius/php-hook/branch/master/graph/badge.svg)](https://codecov.io/gh/josantonius/php-hook)
+[![CodeCov](https://codecov.io/gh/josantonius/php-hook/branch/main/graph/badge.svg)](https://codecov.io/gh/josantonius/php-hook)
 [![PSR1](https://img.shields.io/badge/PSR-1-f57046.svg)](https://www.php-fig.org/psr/psr-1/)
 [![PSR4](https://img.shields.io/badge/PSR-4-9b59b6.svg)](https://www.php-fig.org/psr/psr-4/)
 [![PSR12](https://img.shields.io/badge/PSR-12-1abc9c.svg)](https://www.php-fig.org/psr/psr-12/)
@@ -12,11 +12,6 @@
 **Traducciones**: [English](/README.md)
 
 Biblioteca para manejo de hooks en PHP.
-
-> La versión 1.x se considera obsoleta y sin soporte.
-> En esta versión (2.x) la biblioteca fue completamente reestructurada.
-> Se recomienda revisar la documentación de esta versión y hacer los cambios necesarios
-> antes de empezar a utilizarla, ya que no es compatible con la versión 1.x.
 
 ---
 

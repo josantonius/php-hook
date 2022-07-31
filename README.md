@@ -4,7 +4,7 @@
 [![License](https://poser.pugx.org/josantonius/hook/license)](LICENSE)
 [![Total Downloads](https://poser.pugx.org/josantonius/hook/downloads)](https://packagist.org/packages/josantonius/hook)
 [![CI](https://github.com/josantonius/php-hook/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/josantonius/php-hook/actions/workflows/ci.yml)
-[![CodeCov](https://codecov.io/gh/josantonius/php-hook/branch/master/graph/badge.svg)](https://codecov.io/gh/josantonius/php-hook)
+[![CodeCov](https://codecov.io/gh/josantonius/php-hook/branch/main/graph/badge.svg)](https://codecov.io/gh/josantonius/php-hook)
 [![PSR1](https://img.shields.io/badge/PSR-1-f57046.svg)](https://www.php-fig.org/psr/psr-1/)
 [![PSR4](https://img.shields.io/badge/PSR-4-9b59b6.svg)](https://www.php-fig.org/psr/psr-4/)
 [![PSR12](https://img.shields.io/badge/PSR-12-1abc9c.svg)](https://www.php-fig.org/psr/psr-12/)
@@ -12,11 +12,6 @@
 **Translations**: [Español](.github/lang/es-ES/README.md)
 
 Library for handling hooks in PHP.
-
-> Version 1.x is considered as deprecated and unsupported.
-> In this version (2.x) the library was completely restructured.
-> It is recommended to review the documentation for this version and make the necessary changes
-> before starting to use it, as it not be compatible with version 1.x.
 
 ---
 
@@ -391,8 +386,7 @@ Run unit tests with [PHPUnit](https://phpunit.de/):
 composer phpunit
 ```
 
-Run [PSR12](http://www.php-fig.org/psr/psr-12/) code standard tests with
-[PHPCS](https://github.com/squizlabs/PHP_CodeSniffer):
+Run code standard tests with [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer):
 
 ```console
 composer phpcs
