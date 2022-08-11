@@ -17,11 +17,11 @@ Library for handling hooks in PHP.
 
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Available Classes and Instances](#available-classes-and-instances)
-  - [Hook Class](#hook-class)
+- [Available Classes](#available-classes)
   - [Action Instance](#action-instance)
+  - [Hook Class](#hook-class)
   - [Priority Class](#priority-class)
-- [Quick Start](#quick-start)
+- [Exceptions Used](#exceptions-used)
 - [Usage](#usage)
 - [Tests](#tests)
 - [TODO](#todo)
@@ -59,118 +59,130 @@ You can also **clone the complete repository** with Git:
 git clone https://github.com/josantonius/php-hook.git
 ```
 
-## Available Classes and Instances
-
-### Hook Class
-
-**Available methods:**
-
-#### Register new hook
-
-```php
-$hook = new Hook(string $name);
-```
-
-#### Adds action on the hook
-
-```php
-$hook->addAction(callable $callback, int $priority = Priority::NORMAL): Action
-```
-
-Action will be maintained after performing actions and will be available if are done again.
-
-**@see** <https://www.php.net/manual/en/functions.first_class_callable_syntax.php>
-for more information about first class callable syntax.
-
-**@return** [Action](#action-instance) added.
-
-#### Adds action once on the hook
-
-```php
-$hook->addActionOnce(callable $callback, int $priority = Priority::NORMAL): Action
-```
-
-Action will only be done once and will be deleted after it is done.
-
-**It is recommended to use this method to release the actions from
-memory if the hook actions will only be done once.**
-
-**@return** [Action](#action-instance) added.
-
-#### Runs the added actions for the hook
-
-```php
-$hook->doActions(mixed ...$arguments): Action[]
-```
-
-**@throws** `HookException` if the actions have already been done.
-
-**@throws** `HookException` if no actions were added for the hook.
-
-**@return** `array` [Actions](#action-instance) done.
-
-#### Checks if the hook has actions
-
-```php
-$hook->hasActions(): bool
-```
-
-True if the hook has any action even if the action has been done before
-(recurring actions created with [addAction](#add-action-on-the-hook)).
-
-#### Checks if the hook has undone actions
-
-```php
-$hook->hasUndoneActions(): bool
-```
-
-True if the hook has some action left undone.
-
-#### Checks if the actions were done at least once
-
-```php
-$hook->hasDoneActions(): bool
-```
-
-If [doActions](#runs-the-added-actions-for-the-hook) was executed at least once.
-
-#### Gets hook name
-
-```php
-$hook->getName(): string
-```
+## Available Classes
 
 ### Action Instance
 
-**Available methods:**
+```php
+use Josantonius\Hook\Action;
+```
 
-#### Gets action priority
+Gets action priority:
 
 ```php
 $action->getPriority(): int
 ```
 
-#### Gets action callback result
+Gets action callback result:
 
 ```php
 $action->getResult(): mixed
 ```
 
-#### Checks if the action is done once
+Checks if the action is done once:
 
 ```php
 $action->isOnce(): bool
 ```
 
-#### Checks if the action has already been done
+Checks if the action has already been done:
 
 ```php
 $action->wasDone(): bool
 ```
 
+### Hook Class
+
+```php
+use Josantonius\Hook\Hook;
+```
+
+Register new hook:
+
+```php
+$hook = new Hook(string $name);
+```
+
+Adds action on the hook:
+
+```php
+/**
+ * Action will be maintained after performing actions and will be available if are done again.
+ * 
+ * @see https://www.php.net/manual/en/functions.first_class_callable_syntax.php
+ * 
+ * @return Action Added action.
+ */
+$hook->addAction(callable $callback, int $priority = Priority::NORMAL): Action
+```
+
+Adds action once on the hook:
+
+```php
+/**
+ * Action will only be done once and will be deleted after it is done.
+ * 
+ * It is recommended to use this method to release the actions
+ * from memory if the hook actions will only be done once.
+ * 
+ * @return Action Added action.
+ */
+$hook->addActionOnce(callable $callback, int $priority = Priority::NORMAL): Action
+```
+
+Runs the added actions for the hook:
+
+```php
+/**
+ * @throws HookException if the actions have already been done.
+ * @throws HookException if no actions were added for the hook.
+ * 
+ * @return Action[] Done actions.
+ */
+$hook->doActions(mixed ...$arguments): Action[]
+```
+
+Checks if the hook has actions:
+
+```php
+/**
+ * True if the hook has any action even if the action has been
+ * done before (recurring actions created with addAction).
+ */
+$hook->hasActions(): bool
+```
+
+Checks if the hook has undone actions:
+
+```php
+/**
+ * True if the hook has some action left undone.
+ */
+$hook->hasUndoneActions(): bool
+```
+
+Checks if the actions were done at least once:
+
+```php
+/**
+ * If doActions was executed at least once.
+ */
+$hook->hasDoneActions(): bool
+```
+
+Gets hook name:
+
+```php
+$hook->getName(): string
+```
+
 ### Priority Class
 
-**Available constants:**
+```php
+use Josantonius\Hook\Priority;
+```
+
+Available constants:
 
 ```php
 Priority::HIGHEST; // 50
@@ -180,50 +192,102 @@ Priority::LOW;     // 200
 Priority::LOWEST;  // 250
 ```
 
-## Quick Start
-
-To use this library with **Composer**:
+## Exceptions Used
 
 ```php
-require __DIR__ . '/vendor/autoload.php';
-```
-
-```php
-use Josantonius\Hook\Hook;
-use Josantonius\Hook\Priority;
+use Josantonius\Hook\Exceptions\HookException;
 ```
 
 ## Usage
 
 Example of use for this library:
 
-### - Register new hook
+### Register new hook
 
 ```php
-$hook = new Hook('foo');
+use Josantonius\Hook\Hook;
+
+$hook = new Hook('name');
 ```
 
-### - Adds actions on the hook
+### Adds actions on the hook
 
 ```php
-$hook->addAction(foo(...));
+use Josantonius\Hook\Hook;
 
-$hook->addAction(Foo::bar(...), Priority::HIGH);
+class Foo {
+    public static function bar() { /* do something */ }
+    public static function baz() { /* do something */ }
+}
+
+$hook = new Hook('name');
+
+$hook->addAction(Foo::bar(...));
+$hook->addAction(Foo::baz(...));
 ```
 
-### - Adds actions once on the hook
+### Add actions with custom priority in the hook
 
 ```php
-$hook->addActionOnce(bar(...));
+use Josantonius\Hook\Hook;
+use Josantonius\Hook\Priority;
 
-$hook->addActionOnce($foo->bar(...), Priority::LOWEST);
+class Foo {
+    public static function bar() { /* do something */ }
+    public static function baz() { /* do something */ }
+}
+
+$hook = new Hook('name');
+
+$hook->addAction(Foo::bar(...), Priority::LOW);
+$hook->addAction(Foo::baz(...), Priority::HIGH);
 ```
 
-### - Runs the added actions for the hook
-
-#### Do actions with the same priority
+### Adds actions once on the hook
 
 ```php
+use Josantonius\Hook\Hook;
+
+class Foo {
+    public function bar() { /* do something */ }
+    public function baz() { /* do something */ }
+}
+
+$foo  = new Foo();
+$hook = new Hook('name');
+
+$hook->addActionOnce($foo->bar(...));
+$hook->addActionOnce($foo->baz(...));
+```
+
+### Adds actions once with custom priority in the hook
+
+```php
+use Josantonius\Hook\Hook;
+use Josantonius\Hook\Priority;
+
+class Foo {
+    public function bar() { /* do something */ }
+    public function baz() { /* do something */ }
+}
+
+$foo  = new Foo();
+$hook = new Hook('name');
+
+$hook->addActionOnce($foo->bar(...), Priority::LOW);
+$hook->addActionOnce($foo->baz(...), Priority::HIGH);
+```
+
+### Do actions with the same priority
+
+```php
+use Josantonius\Hook\Hook;
+
+function one() { /* do something */ }
+function two() { /* do something */ }
+
+$hook = new Hook('name');
+
 $hook->addAction(one(...));
 $hook->addAction(two(...));
 
@@ -235,9 +299,18 @@ $hook->addAction(two(...));
 $hook->doActions();
 ```
 
-#### Do actions with different priority
+### Do actions with different priority
 
 ```php
+use Josantonius\Hook\Hook;
+use Josantonius\Hook\Priority;
+
+function a() { /* do something */ }
+function b() { /* do something */ }
+function c() { /* do something */ }
+
+$hook = new Hook('name');
+
 $hook->addAction(a(...), priority::LOW);
 $hook->addAction(b(...), priority::NORMAL);
 $hook->addAction(c(...), priority::HIGHEST);
@@ -250,29 +323,50 @@ $hook->addAction(c(...), priority::HIGHEST);
 $hook->doActions();
 ```
 
-#### Do actions with arguments
+### Do actions with arguments
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo($foo, $bar) { /* do something */ }
+
+$hook = new Hook('name');
+
 $hook->addAction(foo(...));
 
 $hook->doActions('foo', 'bar');
 ```
 
-#### Do actions recurrently
+### Do actions recurrently
 
 ```php
-$hook->addAction(one(...));
-$hook->addAction(tho(...));
-$hook->addActionOnce(three(...)); // Will be done only once
+use Josantonius\Hook\Hook;
 
-$hook->doActions(); // one(), two(), three()
+function a() { /* do something */ }
+function b() { /* do something */ }
+function c() { /* do something */ }
 
-$hook->doActions(); // one(), two()
+$hook = new Hook('name');
+
+$hook->addAction(a(...));
+$hook->addAction(b(...));
+$hook->addActionOnce(c(...)); // Will be done only once
+
+$hook->doActions(); // a(), b(), c()
+
+$hook->doActions(); // a(), b()
 ```
 
-#### Do actions only once
+### Do actions only once
 
 ```php
+use Josantonius\Hook\Hook;
+
+function one() { /* do something */ }
+function two() { /* do something */ }
+
+$hook = new Hook('name');
+
 $hook->addActionOnce(one(...));
 $hook->addActionOnce(tho(...));
 
@@ -281,9 +375,15 @@ $hook->doActions();
 // $hook->doActions(); Throw exception since there are no actions to be done
 ```
 
-### - Checks if the hook has actions
+### Checks if the hook has actions
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* do something */ }
+
+$hook = new Hook('name');
+
 $hook->addAction(foo());
 
 $hook->hasActions(); // true
@@ -293,9 +393,15 @@ $hook->doActions();
 $hook->hasActions(); // True since the action is recurrent and remains stored
 ```
 
-### - Checks if the hook has undone actions
+### Checks if the hook has undone actions
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* do something */ }
+
+$hook = new Hook('name');
+
 $hook->addAction(foo());
 
 $hook->hasUndoneActions(); // true
@@ -305,9 +411,15 @@ $hook->doActions();
 $hook->hasUndoneActions(); // False since there are no undone actions
 ```
 
-### - Checks if the actions were done at least once
+### Checks if the actions were done at least once
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* do something */ }
+
+$hook = new Hook('name');
+
 $hook->addAction(foo());
 
 $hook->hasDoneActions(); // false
@@ -317,31 +429,53 @@ $hook->doActions();
 $hook->hasDoneActions(); // True since the actions were done
 ```
 
-### - Gets hook name
+### Gets hook name
 
 ```php
-$name = $hook->getName();
+use Josantonius\Hook\Hook;
+
+$hook = new Hook('foo');
+
+$name = $hook->getName(); // foo
 ```
 
-#### - Gets action priority
+#### Gets action priority
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* do something */ }
+
+$hook = new Hook('name');
+
 $action = $hook->addAction(foo());
 
 $action->getPriority();
 ```
 
-#### - Gets action callback result
+#### Gets action callback result
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* do something */ }
+
+$hook = new Hook('name');
+
 $action = $hook->addAction(foo());
 
 $action->getResult();
 ```
 
-#### - Checks if the action is done once
+#### Checks if the action is done once
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* do something */ }
+
+$hook = new Hook('name');
+
 $action = $hook->addAction(foo());
 
 $action->isOnce(); // false
@@ -351,9 +485,15 @@ $action = $hook->addActionOnce(foo());
 $action->isOnce(); // true
 ```
 
-#### - Checks if the action has already been done
+#### Checks if the action has already been done
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* do something */ }
+
+$hook = new Hook('name');
+
 $action = $hook->addAction(foo());
 
 $action->wasDone(); // false

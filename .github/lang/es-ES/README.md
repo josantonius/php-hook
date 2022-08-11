@@ -17,11 +17,11 @@ Biblioteca para manejo de hooks en PHP.
 
 - [Requisitos](#requisitos)
 - [Instalación](#instalación)
-- [Clases e instancias disponibles](#clases-e-instancias-disponibles)
-  - [Clase Hook](#clase-hook)
+- [Clases disponibles](#clases-disponibles)
   - [Instancia Action](#instancia-action)
+  - [Clase Hook](#clase-hook)
   - [Clase Priority](#clase-priority)
-- [Cómo empezar](#cómo-empezar)
+- [Excepciones utilizadas](#excepciones-utilizadas)
 - [Uso](#uso)
 - [Tests](#tests)
 - [Tareas pendientes](#tareas-pendientes)
@@ -58,118 +58,126 @@ También puedes **clonar el repositorio** completo con Git:
 git clone https://github.com/josantonius/php-hook.git
 ```
 
-## Clases e instancias disponibles
-
-### Clase Hook
-
-**Métodos disponibles:**
-
-#### Registrar nuevo gancho
-
-```php
-$hook = new Hook(string $name);
-```
-
-#### Agregar acción en el gancho
-
-```php
-$hook->addAction(callable $callback, int $priority = Priority::NORMAL): Action
-```
-
-La acción se mantendrá después de realizar las acciones y estará disponible si se hacen de nuevo.
-
-**@see** <https://www.php.net/manual/en/functions.first_class_callable_syntax.php>
-para más información sobre la sintaxis de las llamadas de primera clase.
-
-**@return** [Action](#instancia-action) acción agregada.
-
-#### Agregar acción en el gancho una vez
-
-```php
-$hook->addActionOnce(callable $callback, int $priority = Priority::NORMAL): Action
-```
-
-La acción solo se realizará una vez y se borrará una vez realizada.
-
-**Se recomienda utilizar este método para liberar las acciones de la
-memoria si las acciones del gancho solo se van a realizar una vez.**
-
-**@return** [Action](#instancia-action) acción agregada.
-
-#### Ejecutar las acciones agregadas al gancho
-
-```php
-$hook->doActions(mixed ...$arguments): Action[]
-```
-
-**@throws** `HookException` si las acciones ya se han realizado.
-
-**@throws** `HookException` si no se han añadido acciones para el gancho.
-
-**@return** `array` [Actions](#instancia-action) done.
-
-#### Comprueba si el gancho tiene acciones
-
-```php
-$hook->hasActions(): bool
-```
-
-Verdadero si el gancho tiene alguna acción incluso si la acción se ha hecho antes
-(acciones recurrentes creadas con [addAction](#agregar-acción-en-el-gancho)).
-
-#### Comprueba si el gancho tiene acciones sin realizar
-
-```php
-$hook->hasUndoneActions(): bool
-```
-
-Verdadero si el gancho tiene alguna acción sin realizar.
-
-#### Comprueba si las acciones se han realizado al menos una vez
-
-```php
-$hook->hasDoneActions(): bool
-```
-
-Si [doActions](#ejecutar-las-acciones-agregadas-al-gancho) fue ejecutado al menos una vez.
-
-#### Obtener el nombre del hook
-
-```php
-$hook->getName(): string
-```
+## Clases disponibles
 
 ### Instancia Action
 
-**Métodos disponibles:**
+```php
+use Josantonius\Hook\Action;
+```
 
-#### Obtener el nivel de prioridad de la acción
+Obtener el nivel de prioridad de la acción:
 
 ```php
 $action->getPriority(): int
 ```
 
-#### Obtener el resultado de la llamada a la acción
+Obtener el resultado de la llamada a la acción:
 
 ```php
 $action->getResult(): mixed
 ```
 
-#### Comprueba si la acción se realiza solo una vez
+Comprueba si la acción se realiza solo una vez:
 
 ```php
 $action->isOnce(): bool
 ```
 
-#### Comprueba si la acción ya se ha realizado
+Comprueba si la acción ya se ha realizado:
 
 ```php
 $action->wasDone(): bool
 ```
 
+### Clase Hook
+
+```php
+use Josantonius\Hook\Hook;
+```
+
+Registrar nuevo gancho:
+
+```php
+$hook = new Hook(string $name);
+```
+
+Agregar acción en el gancho:
+
+```php
+/**
+ * La acción se mantendrá después de realizar las acciones y estará disponible si se hacen de nuevo.
+ * 
+ * @see https://www.php.net/manual/en/functions.first_class_callable_syntax.php
+ * 
+ * @return Action Acción agregada.
+ */
+$hook->addAction(callable $callback, int $priority = Priority::NORMAL): Action
+```
+
+Agregar acción en el gancho una vez:
+
+```php
+/**
+ * La acción solo se realizará una vez y se borrará una vez realizada.
+ * 
+ * Se recomienda utilizar este método para liberar las acciones de la
+ * memoria si las acciones del gancho solo se van a realizar una vez.
+ * 
+ * @return Action Acción agregada.
+ */
+$hook->addActionOnce(callable $callback, int $priority = Priority::NORMAL): Action
+```
+
+Ejecutar las acciones agregadas al gancho:
+
+```php
+/**
+ * @throws HookException si las acciones ya se han realizado.
+ * @throws HookException si no se han añadido acciones para el gancho.
+ * 
+ * @return Action[] Acciones hechas.
+ */
+$hook->doActions(mixed ...$arguments): Action[]
+```
+
+Comprueba si el gancho tiene acciones:
+
+```php
+/**
+ * Verdadero si el gancho tiene alguna acción incluso si la acción
+ * se ha hecho antes (acciones recurrentes creadas con addAction).
+ */
+$hook->hasActions(): bool
+```
+
+Comprueba si el gancho tiene acciones sin realizar:
+
+```php
+/**
+ * Verdadero si el gancho tiene alguna acción sin realizar.
+ */
+$hook->hasUndoneActions(): bool
+```
+
+Comprueba si las acciones se han realizado al menos una vez:
+
+```php
+/**
+ * Si doActions fue ejecutado al menos una vez.
+ */
+$hook->hasDoneActions(): bool
+```
+
+Obtener el nombre del hook:
+
+```php
+$hook->getName(): string
+```
+
 ### Priority Class
 
-**Constantes disponibles:**
+Constantes disponibles:
 
 ```php
 Priority::HIGHEST; // 50
@@ -179,50 +187,100 @@ Priority::LOW;     // 200
 Priority::LOWEST;  // 250
 ```
 
-## Cómo empezar
-
-Para utilizar esta biblioteca con **Composer**:
+## Excepciones utilizadas
 
 ```php
-require __DIR__ . '/vendor/autoload.php';
-```
-
-```php
-use Josantonius\Hook\Hook;
-use Josantonius\Hook\Priority;
+use Josantonius\Hook\Exceptions\HookException;
 ```
 
 ## Uso
 
 Ejemplos de uso de esta biblioteca:
 
-### - Registrar nuevo gancho
+### Registrar nuevo gancho
 
 ```php
 $hook = new Hook('foo');
 ```
 
-### - Agregar acciones en el gancho
+### Agregar acciones en el gancho
 
 ```php
-$hook->addAction(foo(...));
+use Josantonius\Hook\Hook;
 
-$hook->addAction(Foo::bar(...), Priority::HIGH);
+class Foo {
+    public static function bar() { /* hacer algo */ }
+    public static function baz() { /* hacer algo */ }
+}
+
+$hook = new Hook('name');
+
+$hook->addAction(Foo::bar(...));
+$hook->addAction(Foo::baz(...));
 ```
 
-### - Agregar acciones en el gancho una vez
+### Agregar acciones con prioridad personalizada en el gancho
 
 ```php
-$hook->addActionOnce(bar(...));
+use Josantonius\Hook\Hook;
+use Josantonius\Hook\Priority;
 
-$hook->addActionOnce($foo->bar(...), Priority::LOWEST);
+class Foo {
+    public static function bar() { /* hacer algo */ }
+    public static function baz() { /* hacer algo */ }
+}
+
+$hook = new Hook('name');
+
+$hook->addAction(Foo::bar(...), Priority::LOW);
+$hook->addAction(Foo::baz(...), Priority::HIGH);
 ```
 
-### - Ejecutar las acciones agregadas al gancho
-
-#### Realizar acciones con la misma prioridad
+### Agregar acciones en el gancho una vez
 
 ```php
+use Josantonius\Hook\Hook;
+
+class Foo {
+    public function bar() { /* hacer algo */ }
+    public function baz() { /* hacer algo */ }
+}
+
+$foo  = new Foo();
+$hook = new Hook('name');
+
+$hook->addActionOnce($foo->bar(...));
+$hook->addActionOnce($foo->baz(...));
+```
+
+### Agregar acciones una vez con prioridad personalizada en el gancho
+
+```php
+use Josantonius\Hook\Hook;
+use Josantonius\Hook\Priority;
+
+class Foo {
+    public function bar() { /* hacer algo */ }
+    public function baz() { /* hacer algo */ }
+}
+
+$foo  = new Foo();
+$hook = new Hook('name');
+
+$hook->addActionOnce($foo->bar(...), Priority::LOW);
+$hook->addActionOnce($foo->baz(...), Priority::HIGH);
+```
+
+### Realizar acciones con la misma prioridad
+
+```php
+use Josantonius\Hook\Hook;
+
+function one() { /* hacer algo */ }
+function two() { /* hacer algo */ }
+
+$hook = new Hook('name');
+
 $hook->addAction(one(...));
 $hook->addAction(two(...));
 
@@ -234,9 +292,18 @@ $hook->addAction(two(...));
 $hook->doActions();
 ```
 
-#### Realizar acciones con diferente prioridad
+### Realizar acciones con diferente prioridad
 
 ```php
+use Josantonius\Hook\Hook;
+use Josantonius\Hook\Priority;
+
+function a() { /* hacer algo */ }
+function b() { /* hacer algo */ }
+function c() { /* hacer algo */ }
+
+$hook = new Hook('name');
+
 $hook->addAction(a(...), priority::LOW);
 $hook->addAction(b(...), priority::NORMAL);
 $hook->addAction(c(...), priority::HIGHEST);
@@ -249,40 +316,67 @@ $hook->addAction(c(...), priority::HIGHEST);
 $hook->doActions();
 ```
 
-#### Realizar acciones con argumentos
+### Realizar acciones con argumentos
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo($foo, $bar) { /* hacer algo */ }
+
+$hook = new Hook('name');
+
 $hook->addAction(foo(...));
 
 $hook->doActions('foo', 'bar');
 ```
 
-#### Realizar acciones de forma recurrente
+### Realizar acciones de forma recurrente
 
 ```php
-$hook->addAction(one(...));
-$hook->addAction(tho(...));
-$hook->addActionOnce(three(...)); // Se hará una sola vez
+use Josantonius\Hook\Hook;
 
-$hook->doActions(); // one(), two(), three()
+function a() { /* hacer algo */ }
+function b() { /* hacer algo */ }
+function c() { /* hacer algo */ }
 
-$hook->doActions(); // one(), two()
+$hook = new Hook('name');
+
+$hook->addAction(a(...));
+$hook->addAction(b(...));
+$hook->addActionOnce(c(...)); // Se hará una sola vez
+
+$hook->doActions(); // a(), b(), c()
+
+$hook->doActions(); // a(), b()
 ```
 
-#### Realizar las acciones solo una vez
+### Realizar las acciones solo una vez
 
 ```php
+use Josantonius\Hook\Hook;
+
+function one() { /* hacer algo */ }
+function two() { /* hacer algo */ }
+
+$hook = new Hook('name');
+
 $hook->addActionOnce(one(...));
 $hook->addActionOnce(tho(...));
 
 $hook->doActions();
 
-// $hook->doActions(); Lanza una excepción ya que no hay acciones que realizar
+// $hook->doActions(); Lanzaría una excepción ya que no hay acciones que realizar
 ```
 
-### - Comprueba si el gancho tiene acciones
+### Comprueba si el gancho tiene acciones
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* hacer algo */ }
+
+$hook = new Hook('name');
+
 $hook->addAction(foo());
 
 $hook->hasActions(); // Verdadero
@@ -292,9 +386,15 @@ $hook->doActions();
 $hook->hasActions(); // Verdadero ya que la acción es recurrente y permanece almacenada
 ```
 
-### - Comprueba si el gancho tiene acciones sin realizar
+### Comprueba si el gancho tiene acciones sin realizar
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* hacer algo */ }
+
+$hook = new Hook('name');
+
 $hook->addAction(foo());
 
 $hook->hasUndoneActions(); // Verdadero
@@ -304,9 +404,15 @@ $hook->doActions();
 $hook->hasUndoneActions(); // Falso ya que no hay acciones no realizadas
 ```
 
-### - Comprueba si las acciones se han realizado al menos una vez
+### Comprueba si las acciones se han realizado al menos una vez
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* hacer algo */ }
+
+$hook = new Hook('name');
+
 $hook->addAction(foo());
 
 $hook->hasDoneActions(); // Falso
@@ -316,31 +422,53 @@ $hook->doActions();
 $hook->hasDoneActions(); // Verdadero ya que las acciones se hicieron
 ```
 
-### - Obtener el nombre del hook
+### Obtener el nombre del hook
 
 ```php
-$name = $hook->getName();
+use Josantonius\Hook\Hook;
+
+$hook = new Hook('foo');
+
+$name = $hook->getName(); // foo
 ```
 
-#### - Obtener el nivel de prioridad de la acción
+#### Obtener el nivel de prioridad de la acción
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* hacer algo */ }
+
+$hook = new Hook('name');
+
 $action = $hook->addAction(foo());
 
 $action->getPriority();
 ```
 
-#### - Obtener el resultado de la llamada a la acción
+#### Obtener el resultado de la llamada a la acción
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* hacer algo */ }
+
+$hook = new Hook('name');
+
 $action = $hook->addAction(foo());
 
 $action->getResult();
 ```
 
-#### - Comprueba si la acción se realiza solo una vez
+#### Comprueba si la acción se realiza solo una vez
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* hacer algo */ }
+
+$hook = new Hook('name');
+
 $action = $hook->addAction(foo());
 
 $action->isOnce(); // Falso
@@ -350,9 +478,15 @@ $action = $hook->addActionOnce(foo());
 $action->isOnce(); // Verdadero
 ```
 
-#### - Comprueba si la acción ya se ha realizado
+#### Comprueba si la acción ya se ha realizado
 
 ```php
+use Josantonius\Hook\Hook;
+
+function foo() { /* hacer algo */ }
+
+$hook = new Hook('name');
+
 $action = $hook->addAction(foo());
 
 $action->wasDone(); // Falso
@@ -385,8 +519,7 @@ Ejecutar pruebas unitarias con [PHPUnit](https://phpunit.de/):
 composer phpunit
 ```
 
-Ejecutar pruebas de estándares de código [PSR12](http://www.php-fig.org/psr/psr-2/) con
-[PHPCS](https://github.com/squizlabs/PHP_CodeSniffer):
+Ejecutar pruebas de estándares de código con [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer):
 
 ```console
 composer phpcs
