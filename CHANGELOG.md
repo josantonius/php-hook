@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v2.0.2](https://github.com/josantonius/php-hook/releases/tag/v2.0.2) (2022-08-11)
+
+* Improved documentation.
+
 ## [v2.0.1](https://github.com/josantonius/php-hook/releases/tag/v2.0.1) (2022-07-31)
 
 * Removed the warning about version 1.x in the `README.md` files.
