@@ -1,13 +1,15 @@
 <?php
 
 /*
-* This file is part of https://github.com/josantonius/php-hook repository.
-*
-* (c) Josantonius <hello@josantonius.dev>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ * This file is part of https://github.com/josantonius/php-hook repository.
+ *
+ * (c) Josantonius <hello@josantonius.dev>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+ */
 
 namespace Josantonius\Hook\Tests\Hook;
 
@@ -29,7 +31,7 @@ class HasDoneActionsMethodTest extends TestCase
         $this->hook = new Hook('test_hook');
     }
 
-    public function testShouldCheckIfActionsWereDoneOnTheHook(): void
+    public function test_should_check_if_actions_were_done_on_the_hook(): void
     {
         $this->hook->addAction($this->foo->bar(...));
 

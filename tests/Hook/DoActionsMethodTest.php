@@ -1,13 +1,15 @@
 <?php
 
 /*
-* This file is part of https://github.com/josantonius/php-hook repository.
-*
-* (c) Josantonius <hello@josantonius.dev>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ * This file is part of https://github.com/josantonius/php-hook repository.
+ *
+ * (c) Josantonius <hello@josantonius.dev>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+ */
 
 namespace Josantonius\Hook\Tests\Hook;
 
@@ -32,14 +34,14 @@ class DoActionMethodTest extends TestCase
         $this->hook = new Hook('foo_hook');
     }
 
-    public function testShouldFailIfNoActionsWereAdded(): void
+    public function test_should_fail_if_no_actions_were_added(): void
     {
         $this->expectException(HookException::class);
 
         $this->hook->doActions();
     }
 
-    public function testShouldDoActionsWithoutArguments(): void
+    public function test_should_do_actions_without_arguments(): void
     {
         $fooHook = new Hook('foo_hook');
         $barHook = new Hook('bar_hook');
@@ -64,7 +66,7 @@ class DoActionMethodTest extends TestCase
         $this->assertEmpty($action3->getResult()->arguments);
     }
 
-    public function testShouldDoActionsWithArguments(): void
+    public function test_should_do_actions_with_arguments(): void
     {
         $fooHook = new Hook('foo_hook');
         $barHook = new Hook('bar_hook');
@@ -89,7 +91,7 @@ class DoActionMethodTest extends TestCase
         $this->assertEquals(['bar', 'foo'], $action3->getResult()->arguments);
     }
 
-    public function testShouldKeepTheActionIfWasSetWithAddAction(): void
+    public function test_should_keep_the_action_if_was_set_with_add_action(): void
     {
         $hook = new Hook('user_hook');
 
@@ -102,7 +104,7 @@ class DoActionMethodTest extends TestCase
         $this->assertCount(1, $actions);
     }
 
-    public function testShouldRemoveTheActionIfWasSetWithAddActionOnce(): void
+    public function test_should_remove_the_action_if_was_set_with_add_action_once(): void
     {
         $hook = new Hook('login_hook');
 
@@ -115,7 +117,7 @@ class DoActionMethodTest extends TestCase
         $this->assertCount(0, $actions);
     }
 
-    public function testShouldReturnAnArrayWithTheActionsDone(): void
+    public function test_should_return_an_array_with_the_actions_done(): void
     {
         $hook = new Hook('logout_hook');
 
@@ -132,7 +134,7 @@ class DoActionMethodTest extends TestCase
         $this->assertSame($actions[2], $action3);
     }
 
-    public function testShouldMarkTheHookAsDone(): void
+    public function test_should_mark_the_hook_as_done(): void
     {
         $hook = new Hook('called_hook');
 
@@ -145,7 +147,7 @@ class DoActionMethodTest extends TestCase
         $this->assertTrue($hooks['called_hook']['done']);
     }
 
-    public function testShouldFailIfTheActionsAreDoneOnceAndHaveAlreadyBeenDone(): void
+    public function test_should_fail_if_the_actions_are_done_once_and_have_already_been_done(): void
     {
         $this->expectException(HookException::class);
 
@@ -158,7 +160,7 @@ class DoActionMethodTest extends TestCase
         $hook->doActions();
     }
 
-    public function testShouldDoActionsAccordingToTheirOrderOfEntryWhenHasSamePriority(): void
+    public function test_should_do_actions_according_to_their_entry_order_with_same_priority(): void
     {
         $this->foo->clearHistory();
 
@@ -174,7 +176,7 @@ class DoActionMethodTest extends TestCase
         $this->assertEquals(['one', 'two', 'three', 'four'], $this->foo->getHistory());
     }
 
-    public function testShouldDoActionsAccordingToTheirPriorityLevel(): void
+    public function test_should_do_actions_according_to_their_priority_level(): void
     {
         $this->foo->clearHistory();
 

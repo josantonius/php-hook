@@ -62,44 +62,40 @@ git clone https://github.com/josantonius/php-hook.git
 
 ### Instancia Action
 
-```php
-use Josantonius\Hook\Action;
-```
+`Josantonius\Hook\Action`
 
 Obtener el nivel de prioridad de la acción:
 
 ```php
-$action->getPriority(): int
+public function getPriority(): int;
 ```
 
 Obtener el resultado de la llamada a la acción:
 
 ```php
-$action->getResult(): mixed
+public function getResult(): mixed;
 ```
 
 Comprueba si la acción se realiza solo una vez:
 
 ```php
-$action->isOnce(): bool
+public function isOnce(): bool;
 ```
 
 Comprueba si la acción ya se ha realizado:
 
 ```php
-$action->wasDone(): bool
+public function wasDone(): bool;
 ```
 
 ### Clase Hook
 
-```php
-use Josantonius\Hook\Hook;
-```
+`Josantonius\Hook\Hook`
 
 Registrar nuevo gancho:
 
 ```php
-$hook = new Hook(string $name);
+public function __construct(private string $name);
 ```
 
 Agregar acción en el gancho:
@@ -112,7 +108,7 @@ Agregar acción en el gancho:
  * 
  * @return Action Acción agregada.
  */
-$hook->addAction(callable $callback, int $priority = Priority::NORMAL): Action
+public function addAction(callable $callback, int $priority = Priority::NORMAL): Action;
 ```
 
 Agregar acción en el gancho una vez:
@@ -126,7 +122,7 @@ Agregar acción en el gancho una vez:
  * 
  * @return Action Acción agregada.
  */
-$hook->addActionOnce(callable $callback, int $priority = Priority::NORMAL): Action
+public function addActionOnce(callable $callback, int $priority = Priority::NORMAL): Action;
 ```
 
 Ejecutar las acciones agregadas al gancho:
@@ -138,7 +134,7 @@ Ejecutar las acciones agregadas al gancho:
  * 
  * @return Action[] Acciones hechas.
  */
-$hook->doActions(mixed ...$arguments): Action[]
+public function doActions(mixed ...$arguments): array;
 ```
 
 Comprueba si el gancho tiene acciones:
@@ -148,7 +144,7 @@ Comprueba si el gancho tiene acciones:
  * Verdadero si el gancho tiene alguna acción incluso si la acción
  * se ha hecho antes (acciones recurrentes creadas con addAction).
  */
-$hook->hasActions(): bool
+public function hasActions(): bool;
 ```
 
 Comprueba si el gancho tiene acciones sin realizar:
@@ -157,7 +153,7 @@ Comprueba si el gancho tiene acciones sin realizar:
 /**
  * Verdadero si el gancho tiene alguna acción sin realizar.
  */
-$hook->hasUndoneActions(): bool
+public function hasUndoneActions(): bool;
 ```
 
 Comprueba si las acciones se han realizado al menos una vez:
@@ -166,25 +162,27 @@ Comprueba si las acciones se han realizado al menos una vez:
 /**
  * Si doActions fue ejecutado al menos una vez.
  */
-$hook->hasDoneActions(): bool
+public function hasDoneActions(): bool;
 ```
 
 Obtener el nombre del hook:
 
 ```php
-$hook->getName(): string
+public function getName(): string;
 ```
 
-### Priority Class
+### Clase Priority
+
+`Josantonius\Hook\Priority`
 
 Constantes disponibles:
 
 ```php
-Priority::HIGHEST; // 50
-Priority::HIGH;    // 100
-Priority::NORMAL;  // 150
-Priority::LOW;     // 200
-Priority::LOWEST;  // 250
+public const HIGHEST = 50;
+public const HIGH    = 100;
+public const NORMAL  = 150;
+public const LOW     = 200;
+public const LOWEST  = 250;
 ```
 
 ## Excepciones utilizadas
