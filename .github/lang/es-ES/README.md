@@ -36,7 +36,7 @@ Biblioteca para manejo de hooks en PHP.
 
 - Sistema operativo: Linux | Windows.
 
-- Versiones de PHP: 8.1 | 8.2.
+- Versiones de PHP: 8.0 | 8.1 | 8.2.
 
 ## Instalación
 
