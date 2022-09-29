@@ -27,14 +27,16 @@ Library for handling hooks in PHP.
 - [TODO](#todo)
 - [Changelog](#changelog)
 - [Contribution](#contribution)
-- [Sponsor](#Sponsor)
+- [Sponsor](#sponsor)
 - [License](#license)
 
 ---
 
 ## Requirements
 
-This library is compatible with the PHP versions: 8.1.
+- Operating System: Linux | Windows.
+
+- PHP versions: 8.1 | 8.2.
 
 ## Installation
 
@@ -63,44 +65,40 @@ git clone https://github.com/josantonius/php-hook.git
 
 ### Action Instance
 
-```php
-use Josantonius\Hook\Action;
-```
+`Josantonius\Hook\Action`
 
 Gets action priority:
 
 ```php
-$action->getPriority(): int
+public function getPriority(): int;
 ```
 
 Gets action callback result:
 
 ```php
-$action->getResult(): mixed
+public function getResult(): mixed;
 ```
 
 Checks if the action is done once:
 
 ```php
-$action->isOnce(): bool
+public function isOnce(): bool;
 ```
 
 Checks if the action has already been done:
 
 ```php
-$action->wasDone(): bool
+public function wasDone(): bool;
 ```
 
 ### Hook Class
 
-```php
-use Josantonius\Hook\Hook;
-```
+`Josantonius\Hook\Hook`
 
 Register new hook:
 
 ```php
-$hook = new Hook(string $name);
+public function __construct(private string $name);
 ```
 
 Adds action on the hook:
@@ -113,7 +111,7 @@ Adds action on the hook:
  * 
  * @return Action Added action.
  */
-$hook->addAction(callable $callback, int $priority = Priority::NORMAL): Action
+public function addAction(callable $callback, int $priority = Priority::NORMAL): Action;
 ```
 
 Adds action once on the hook:
@@ -127,7 +125,7 @@ Adds action once on the hook:
  * 
  * @return Action Added action.
  */
-$hook->addActionOnce(callable $callback, int $priority = Priority::NORMAL): Action
+public function addActionOnce(callable $callback, int $priority = Priority::NORMAL): Action;
 ```
 
 Runs the added actions for the hook:
@@ -139,7 +137,7 @@ Runs the added actions for the hook:
  * 
  * @return Action[] Done actions.
  */
-$hook->doActions(mixed ...$arguments): Action[]
+public function doActions(mixed ...$arguments): array;
 ```
 
 Checks if the hook has actions:
@@ -149,7 +147,7 @@ Checks if the hook has actions:
  * True if the hook has any action even if the action has been
  * done before (recurring actions created with addAction).
  */
-$hook->hasActions(): bool
+public function hasActions(): bool;
 ```
 
 Checks if the hook has undone actions:
@@ -158,7 +156,7 @@ Checks if the hook has undone actions:
 /**
  * True if the hook has some action left undone.
  */
-$hook->hasUndoneActions(): bool
+public function hasUndoneActions(): bool;
 ```
 
 Checks if the actions were done at least once:
@@ -167,29 +165,27 @@ Checks if the actions were done at least once:
 /**
  * If doActions was executed at least once.
  */
-$hook->hasDoneActions(): bool
+public function hasDoneActions(): bool;
 ```
 
 Gets hook name:
 
 ```php
-$hook->getName(): string
+public function getName(): string;
 ```
 
 ### Priority Class
 
-```php
-use Josantonius\Hook\Priority;
-```
+`Josantonius\Hook\Priority`
 
 Available constants:
 
 ```php
-Priority::HIGHEST; // 50
-Priority::HIGH;    // 100
-Priority::NORMAL;  // 150
-Priority::LOW;     // 200
-Priority::LOWEST;  // 250
+public const HIGHEST = 50;
+public const HIGH    = 100;
+public const NORMAL  = 150;
+public const LOW     = 200;
+public const LOWEST  = 250;
 ```
 
 ## Exceptions Used
