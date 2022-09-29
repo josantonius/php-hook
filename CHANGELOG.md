@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## [v2.0.3](https://github.com/josantonius/php-hook/releases/tag/v2.0.3) (2022-XX-XX)
+
+* The notation type in the test function names has been changed from camel to snake case for readability.
+
+* Functions were added to document the methods and avoid confusion.
+
+* Disabled the ´CamelCaseMethodName´ rule in ´phpmd.xml´ to avoid warnings about function names in tests.
+
+* The alignment of the asterisks in the comments has been fixed.
+
+* Tests for Windows have been added.
+
+* Tests for PHP 8.2 have been added.
+
 ## [v2.0.2](https://github.com/josantonius/php-hook/releases/tag/v2.0.2) (2022-08-11)
 
 * Improved documentation.
