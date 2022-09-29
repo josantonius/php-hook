@@ -23,7 +23,7 @@
         "discussions": "https://github.com/josantonius/php-hook/discussions"
     },
     "require": {
-        "php": "^8.0"
+        "php": "^8.1"
     },
     "require-dev": {
         "phpmd/phpmd": "^2.6",
