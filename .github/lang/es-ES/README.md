@@ -34,7 +34,9 @@ Biblioteca para manejo de hooks en PHP.
 
 ## Requisitos
 
-Esta biblioteca es compatible con las versiones de PHP: 8.1.
+- Sistema operativo: Linux | Windows.
+
+- Versiones de PHP: 8.1 | 8.2.
 
 ## Instalación
 

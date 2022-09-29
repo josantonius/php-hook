@@ -34,7 +34,9 @@ Library for handling hooks in PHP.
 
 ## Requirements
 
-This library is compatible with the PHP versions: 8.1.
+- Operating System: Linux | Windows.
+
+- PHP versions: 8.1 | 8.2.
 
 ## Installation
 
